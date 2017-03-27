@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+    <form id="form">
+        <input type="button" id="submit" value="Start">
+        <input type="number" id="rows" name="rows" placeholder="Rows">
+        <input type="number" id="cols" name="cols" placeholder="Cols">
+        <input type="number" id="bombs" name="bombs" placeholder="Bombs">
+        <input type="text" id="name" name="name" placeholder="Name">
+    </form>
+    </body>
+    <script>
+        var URL = "http://192.168.23.135:8081"
+
+        $('#submit').click(function(event){
+            event.preventDefault()
+            $.post(URL+"/startGame", $('#form').serialize())
+            .done(function( data ) {
+            alert("Data Loaded: " + data)
+            $('#cols').css("display", "none")
+            })
+        })
+    </script>
+</html>
