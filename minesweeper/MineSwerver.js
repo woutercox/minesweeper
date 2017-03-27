@@ -122,6 +122,13 @@ app.get('/viewGame/:sessionID', function (req, res) {
     res.render('SWMPClient', viewData)
 });
 
+app.get('/liveGames/:count', function (req, res) {
+    var gameCount = req.params.count;
+    var viewData = repo.getLiveGames(count);
+    viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
+    res.render('SWMPViewClient', viewData)
+});
+
 // Listen on port
 var server = app.listen(PORT, function() {
 	var host = server.address().address;

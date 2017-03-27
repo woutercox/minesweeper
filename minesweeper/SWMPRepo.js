@@ -6,22 +6,22 @@ const MINESWEEPERGAME_DEFAULT_BOMBS = 10;
 //minesweeper multiplayer demo
 var SWMPRepo = function(){
     this.runningGames = [];
-    this.newGame = function(name, cols , rows , bombs){
-        var msmpSes = new MineSweeperSession(name, cols , rows , bombs)
+    this.newGame = function(name, rows , cols , bombs){
+        var msmpSes = new MineSweeperSession(name, rows, cols , bombs)
         var sessionID = this.genSessionID();
         while(sessionID in this.runningGames) sessionID = this.genSessionID();
         this.runningGames[sessionID] = msmpSes;
         console.log("new game with id " + sessionID)
         return {sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()};
     }
-    this.leftClickAndGetViewData= function(sessionID, col,row){
-        console.log("left click " + sessionID + " on : " + col + " : " + row)
+    this.leftClickAndGetViewData= function(sessionID, row, col){
+        console.log("left click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
         go.leftClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
     }
-    this.rightClickAndGetViewData= function(sessionID, col,row){
-        console.log("right click " + sessionID + " on : " + col + " : " + row)
+    this.rightClickAndGetViewData= function(sessionID, row, col){
+        console.log("right click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
         go.rightClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
@@ -60,10 +60,10 @@ var SWMPRepo = function(){
 }
 
 class MineSweeperSession{
-    constructor(name,cols , rows , bombs){
+    constructor(name,rows , cols  , bombs){
         this.name = name;
         this.start = new Date();
-        this.game = new MineSweeperGame(cols , rows , bombs);
+        this.game = new MineSweeperGame(rows, cols , bombs);
         this.game.start();
         this.bombFlagsLeft = function (){return this.game.bombFlagsLeft()};
         this.viewData  = function (){return this.game.getViewData()};
@@ -81,13 +81,13 @@ class MineSweeperSession{
         this.leftClick = function(row,col) {
              this.game.clickTile(row,col)
              this.clickCount++;
-             if (this.game.gameState == 2) //loose
+             if (this.game.gameState == 2 || this.game.gameState == 2) //loose
                 this.time = new Date() - this.start
         } 
         this.rightClick = function(row,col){
             this.game.rightClickTile(row,col)
             this.clickCount++;
-            if (this.game.gameState == 1) //win
+            if (this.game.gameState == 1 || this.game.gameState == 1) //win
                 this.time = new Date() - start
             return this.viewData();
         }
@@ -211,11 +211,12 @@ class MineSweeperGame{
             out[i] = new Array(this.cols)
             for (var j = 0; j < this.cols; j++) {
                 if (this.show[i][j] == "s" )
-                    out[i][j] = this.spaces[i][j] + " ";
+                    out[i][j] = this.spaces[i][j];
                 else 
-                    out[i][j] = this.show[i][j] + " ";
+                    out[i][j] = this.show[i][j];
             }
         }
+        console.dir(out);
         return out;
     }
     showConnectedRecursive(row,col){ //=flood pattern for showing of connected cells on click
@@ -253,12 +254,13 @@ class MineSweeperGame{
         }
     }
     rightClickTile(row,col){
+        console.log("rightclick (" + row + "," + col + ") " + this.show[row][col] + " - " + this.spaces[row][col]  + " flagsleft: " +this.bombFlagsLeft())
         if (this.gameState == 0){
-            if (this.show[row][col] == "h" && this.bombFlagsLeft > 0){ //check if cqn still place flags
+            if (this.show[row][col] == "h" && this.bombFlagsLeft() > 0){ //check if can still place flags
                 this.show[row][col] = "f" // f for flagged
                 this.bombsFlagged++;
                 if (this.spaces[row][col] == "b") this.bombsFlaggedCorrectly++
-                if (allBombsFlaggedCorrectly) this.gameState = 1 //WIN !!!!
+                if (this.allBombsFlaggedCorrectly()) this.gameState = 1 //WIN !!!!
             }
             else if (this.show[row][col] == "f"){
                 this.bombsFlagged--;

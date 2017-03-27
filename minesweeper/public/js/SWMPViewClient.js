@@ -8,11 +8,6 @@ function load() {
 window.onload = load;
 
 function leftClick(row,col){
-        /* Server api expects   :  
-        var sessionID = req.body.sessionID;
-        var row = parseInt(req.body.row);
-        var col = parseInt(req.body.col);*/
-        console.log("Client left click on " + row + " - " + col + " for game " + sessionID)
         $.ajax({
                 type: "POST",
                         url: apiUrl + "leftClick",
@@ -21,7 +16,8 @@ function leftClick(row,col){
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data){
-                                setData(data)
+                                //do stuff
+                           
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
@@ -30,6 +26,7 @@ function leftClick(row,col){
 }
 function setData(data){
         console.dir(data["mineField"])
+        setHtmlFromData(data,"name");
         setHtmlFromData(data,"gameState");
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
