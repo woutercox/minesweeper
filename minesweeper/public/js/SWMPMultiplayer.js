@@ -28,6 +28,20 @@ function fetchEnLaadData(){
                                 alert("Server issues " + errMsg);
                         }
                 });
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "livegames",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        //do stuff
+                    
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+
 
         //fetchgames : liveGamesRefresh
 
@@ -40,5 +54,6 @@ function fetchEnLaadData(){
 function laadDataInHtml(data){
     console.dir(data);
     $('#map').append('<div>joo</div>').attr('class', 'marker'); 
+        console.dir(data)
 }
  
