@@ -6,9 +6,10 @@ html
     script(src='/js/SWMPMultiplayer.js')
     script.
       var apiUrl="#{apiUrl}"; 
-      laadDataInHtml(!{JSON.stringify(games)});
+      window.onload = function(){
+        laadDataInHtml(!{JSON.stringify(games)});
+      }
   body
     p Welcome to the Minesweeper alfa client using PUG (Jade) templating.
     div(id="mainWrapper")
-      div(id="map")
-
+      div(id="map", class="map")
