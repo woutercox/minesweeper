@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
+    script(src='/js/jquery-3.2.0.min.js')
+    script(src='/js/SWMPMultiplayer.js')
+    script.
+      var apiUrl="#{apiUrl}"; 
+      laadDataInHtml(!{JSON.stringify(games)});
+  body
+    p Welcome to the Minesweeper alfa client using PUG (Jade) templating.
+    div(id="mainWrapper")
+      div(id="map")
+

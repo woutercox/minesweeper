@@ -36,6 +36,22 @@ var SWMPRepo = function(){
     this.activeGamesCount = function(){
         return Object.keys(this.runningGames).length;
     }
+    this.getLiveGames = function(top){
+        var returnCnt = (top?top:9) - 1;
+        var output = new Array();
+        for (var key in this.runningGames) {
+            var go = this.runningGames[key];
+            output.push(
+                {   sessionID:key,
+                    name:go.name,
+                    state:go.gameStateString(), 
+                    flagsleft:go.bombFlagsLeft(),
+                    timer:go.timeElapsed()
+            })
+            if (! --returnCnt) return output
+        }
+        return { games : output}
+    }
     this.getGame = function (sessionID){
         console.log("get game " + sessionID)     
         if(sessionID && this.runningGames[sessionID]) return this.runningGames[sessionID];

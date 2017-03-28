@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
+    script(src='/js/jquery-3.2.0.min.js')
+    script(src='/js/SWMPGameClient.js')
+    script.
+      var sessionID="#{sessionID}";
+      var apiUrl="#{apiUrl}"; 
+      setMinefield(!{JSON.stringify(mineField)});
+  body
+    div(id='gameClientWrapper')
+      div(id='gameClientTitle')
+        h1 New attack plan
+      div(id='gameClientForm')
+        form
+          div
+            div(class='SWMP_content')
+              input(id='player', type='text', name='name', class='swmp_largeInput')
+            div(class='SWMP_label', id='player_label') name 
+            br(style='clear:both')
+          div
+            div(class='SWMP_content')
+              input(id='rows', type=number, name='rows', min=1, max =16, class='swmp_smallInput')
+            div(class='SWMP_label', id='rows_label') rows 
+            br(style='clear:both')
+          div
+            div(class='SWMP_content')
+              input(id='rows', type=number, name='cols', min=1, max =16, class='swmp_smallInput')
+            div(class='SWMP_label', id='columns_label') columns 
+            br(style='clear:both')
+          div 
+            div(class='SWMP_content')
+              input(id='rows', type=number, name='bombs', min=1, max =14, class='swmp_largeInput')
+            div(class='SWMP_label', id='bombs_label') Barrels
+            br(style='clear:both')
+          div
+            input(type='button', value='start game', onclick='startGame()', class='swmp_largeInput')
+      div(id='gameClient', style='display:none')
