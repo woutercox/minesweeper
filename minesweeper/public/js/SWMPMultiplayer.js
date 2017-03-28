@@ -52,8 +52,19 @@ function fetchEnLaadData(){
 
 //wordt aangeroepen door de server , naam niet aanpassen !
 function laadDataInHtml(data){
-    console.dir(data);
-    $('#map').append('<div>joo</div>').attr('class', 'marker'); 
-        console.dir(data)
+        console.dir(data);
+        $.each(data, function( key, value ) {
+        console.log( value.name, value.state );
+    
+    $('#map').append("<div class='marker'></div>");    
+    $('.marker:last-child').append('<p>'+ value.name +'</p>')
+    $('.marker:last-child').append('<p>' + value.flagsleft + '</p>')
+    $('.marker:last-child').append('<p>' + value.state + '</p>')
+    $('.marker:last-child').append('<p>' + value.sessionID + '</p>')
+    $('.marker:last-child').append('<p>' + value.timer + '</p>')
+    $a = $('<a href="' + apiUrl + "viewgame/" + value.sessionID + '"></a>').attr('class', 'linkMarker');
+    $('.marker:last-child').append($a);
+    $a.append('<img>')
+  });
 }
  
