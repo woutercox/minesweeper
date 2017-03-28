@@ -23,7 +23,7 @@ function startGame(){
                 $("#ClientMinefieldMsg").html("Fetching battlemap");
                 $("#gameClientWrapperGame").toggle();
                 rows =  $("#rows").val();
-                cols = $("#cols").val();name:$("#name").val(), rows : rows, cols : cols, bombs:$("#bombs").val()
+                cols = $("#cols").val();
                 prepareMap(rows,cols,true);
                 $.ajax({
                 type: "POST",
