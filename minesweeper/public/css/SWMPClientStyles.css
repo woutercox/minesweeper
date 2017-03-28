@@ -1,17 +1,17 @@
-td {border:1px solid grey;height:16px;width:16px}
-.swmp_td_hidden{background:no-repeat center center url(../img/hiddenx16.png)}
-.swmp_td_shown{background:no-repeat center center url(../img/showx16.png)}
-.swmp_td_flag{background:no-repeat center center url(../img/flagx16.png)}
-.swmp_td_question{background:no-repeat center center url(../img/questionx16.png)}
-.swmp_td_bomb{background:no-repeat center center url(../img/bombx16.png)}
-.swmp_td_1{background:no-repeat center center url(../img/1x16.png)}
-.swmp_td_2{background:no-repeat center center url(../img/2x16.png)}
-.swmp_td_3{background:no-repeat center center url(../img/3x16.png)}
-.swmp_td_4{background:no-repeat center center url(../img/4x16.png)}
-.swmp_td_5{background:no-repeat center center url(../img/5x16.png)}
-.swmp_td_6{background:no-repeat center center url(../img/6x16.png)}
-.swmp_td_7{background:no-repeat center center url(../img/7x16.png)}
-.swmp_td_8{background:no-repeat center center url(../img/8x16.png)}
+td {border:1px solid #080808;height:38px;width:38px}
+.swmp_td_hidden{background: #757575 no-repeat center center url(../img/hiddenx28.png)}
+.swmp_td_shown{background:#D4D4D2 no-repeat center center url(../img/showx28.png)}
+.swmp_td_flag{background:#757575 no-repeat center center url(../img/flagx28.png)}
+.swmp_td_question{background:#757575 no-repeat center center url(../img/questionx28.png)}
+.swmp_td_bomb{background:#D4D4D2 no-repeat center center url(../img/bombx28.png)}
+.swmp_td_1{background:#D4D4D2 no-repeat center center url(../img/1x28.png)}
+.swmp_td_2{background:#D4D4D2 no-repeat center center url(../img/2x28.png)}
+.swmp_td_3{background:#D4D4D2 no-repeat center center url(../img/3x28.png)}
+.swmp_td_4{background:#D4D4D2 no-repeat center center url(../img/4x28.png)}
+.swmp_td_5{background:#D4D4D2 no-repeat center center url(../img/5x28.png)}
+.swmp_td_6{background:#D4D4D2 no-repeat center center url(../img/6x28.png)}
+.swmp_td_7{background:#D4D4D2 no-repeat center center url(../img/7x28.png)}
+.swmp_td_8{background:#D4D4D2 no-repeat center center url(../img/8x28.png)}
 html{
   font-family: 'Purple Purse', cursive;
   height: 100%;

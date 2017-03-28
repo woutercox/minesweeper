@@ -98,7 +98,7 @@ function setMinefield(mf){
                                 case 6:
                                 case 7:
                                 case 8:
-                                        cssClass = "swmp_td_" + mf[i][j];
+                                        cssClass = "swmp_td_" + mf[i][j] ;
                                         break;
                                 case "f":
                                 console.log("FLag")
