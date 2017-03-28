@@ -7,8 +7,42 @@ function load() {
 }
 window.onload = load;
 
+var SessionID = "";
+var currentFlagsLeft = "";
+
 function startGame(){
-        console.log("start game")
+        $("#gameClientTitle").html($("#name").val());
+        $("#gameClientForm").toggle();
+        $("#ClientMinefieldMsg").html("Fetching battlemap");
+        $("#gameClientField").toggle();
+        var rows =  $("#rows").val();
+        var cols = $("#cols").val();
+        prepareMap(rows,cols);
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "startGame",
+                data: JSON.stringify({ name:$("#name").val(), rows : rows, cols : cols, bombs:$("#bombs").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+//sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()
+                        sessionID = data["sessionID"]
+                        data.gameState = "Busy"
+                        data.timeElapsed = 0;
+                        console.dir(data);
+                        setData(data)
+                         $("#ClientMinefieldMsg").html("");
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+}
+
+function restartGame(){
+        $("#gameClientTitle").html("New attack plan");
+        $("#gameClientForm").toggle()
+        $("#gameClientField").toggle()
 }
 
 function leftClick(row,col){
@@ -20,8 +54,7 @@ function leftClick(row,col){
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data){
-                                //do stuff
-                           
+                                setData(data)             
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
@@ -29,12 +62,15 @@ function leftClick(row,col){
                 });
 }
 function setData(data){
-        console.dir(data["mineField"])
-        setHtmlFromData(data,"name");
+        if (data["gameState"] == "busy" || data["gameState"] == "Busy"){
+                //setHtmlFromData(data,"name");
+                setMinefield(data["mineField"]);
+        }else{
+                $("#minefield").html("");
+        }
         setHtmlFromData(data,"gameState");
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
-        setMinefield(data["mineField"]);
 }
 function setMinefield(mf){
         if(mf)
@@ -106,5 +142,27 @@ function rightClick(row,col){
                         }
                 });
         return false;
+}
+
+function fillInValues(rows,cols,bombs){
+        $("#rows").val(rows);
+        $("#cols").val(cols);
+        $("#bombs").val(bombs);
+}
+
+function prepareMap(rows,cols){
+        $("#minefield").html("");
+        var out = "<table>"
+        for(var i = 0 ; i < rows; i++){
+                out += "<tr>"
+                for(var j = 0 ; j < rows; j++){
+                        out += "<td id='cell" + i + "-" + j + "' class='swmp_td_hidden'";
+                        out += " onclick='leftClick(" + i + "," + j + ")'";
+                        out += " oncontextmenu='rightClick(" + i + "," + j + ");return false;'"; 
+                        out += "</td>";                
+                }
+                out += "</tr>"
+        }
+        $("#minefield").html(out + "</table>")
 }
  

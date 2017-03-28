@@ -10,7 +10,7 @@ window.onload = load;
 function leftClick(row,col){
         $.ajax({
                 type: "POST",
-                        url: apiUrl + "leftClick",
+                        url: apiUrl + "startGame",
 
                         data: JSON.stringify({ sessionID: sessionID, col:col, row: row }),
                         contentType: "application/json; charset=utf-8",

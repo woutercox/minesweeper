@@ -104,7 +104,7 @@ class MineSweeperSession{
             this.game.rightClickTile(row,col)
             this.clickCount++;
             if (this.game.gameState == 1 || this.game.gameState == 1) //win
-                this.time = new Date() - start
+                this.time = new Date() - this.start
             return this.viewData();
         }
         this.clickCount = 0;
@@ -232,7 +232,7 @@ class MineSweeperGame{
                     out[i][j] = this.show[i][j];
             }
         }
-        console.dir(out);
+        //console.dir(out);
         return out;
     }
     showConnectedRecursive(row,col){ //=flood pattern for showing of connected cells on click
