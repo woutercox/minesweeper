@@ -15,6 +15,33 @@ function test(row,col){
 
 function fetchEnLaadData(){
         //laad alles via ajax
+        $.ajax({
+                type: "POST",
+                        url: apiUrl + "livegames",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data){
+                                //do stuff
+                           
+                        },
+                        failure: function(errMsg) {
+                                alert("Server issues " + errMsg);
+                        }
+                });
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "livegames",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        //do stuff
+                    
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+
 
         //fetchgames : liveGamesRefresh
 
@@ -25,6 +52,8 @@ function fetchEnLaadData(){
 
 //wordt aangeroepen door de server , naam niet aanpassen !
 function laadDataInHtml(data){
-
+    console.dir(data);
+    $('#map').append('<div>joo</div>').attr('class', 'marker'); 
+        console.dir(data)
 }
  
