@@ -54,6 +54,14 @@ function fetchEnLaadData(){
 function laadDataInHtml(data){
     console.dir(data);
     $('#map').append('<div>joo</div>').attr('class', 'marker'); 
-        console.dir(data)
+
+$.each(data, function( key, value ) {
+  console.log( value.name, value.state );
+    $('.marker').append('<p>'+ value.name +'</p>')
+    $('.marker').append('<p>' + value.flagsleft + '</p>')
+    $('.marker').append('<p>' + value.state + '</p>')
+    $('.marker').append('<p>' + value.sessionID + '</p>')
+    $('.marker').append('<p>' + value.timer + '</p>')
+  });
 }
  
