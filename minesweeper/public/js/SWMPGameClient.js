@@ -9,15 +9,18 @@ window.onload = load;
 
 var SessionID = "";
 var currentFlagsLeft = "";
+var rows=8;
+var cols =8;
 
+//# 
 function startGame(){
         $("#gameClientTitle").html($("#name").val());
-        $("#gameClientForm").toggle();
+        $("#gameClientWrapperSetup").toggle();
         $("#ClientMinefieldMsg").html("Fetching battlemap");
-        $("#gameClientField").toggle();
-        var rows =  $("#rows").val();
-        var cols = $("#cols").val();
-        prepareMap(rows,cols);
+        $("#gameClientWrapperGame").toggle();
+        rows =  $("#rows").val();
+        cols = $("#cols").val();
+        prepareMap(rows,cols,true);
         $.ajax({
         type: "POST",
                 url: apiUrl + "startGame",
@@ -27,7 +30,7 @@ function startGame(){
                 success: function(data){
 //sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()
                         sessionID = data["sessionID"]
-                        data.gameState = "Busy"
+                        data.gameState = "busy"
                         data.timeElapsed = 0;
                         console.dir(data);
                         setData(data)
@@ -41,8 +44,8 @@ function startGame(){
 
 function restartGame(){
         $("#gameClientTitle").html("New attack plan");
-        $("#gameClientForm").toggle()
-        $("#gameClientField").toggle()
+        $("#gameClientWrapperSetup").toggle()
+        $("#gameClientWrapperGame").toggle()
 }
 
 function leftClick(row,col){
@@ -61,13 +64,12 @@ function leftClick(row,col){
                         }
                 });
 }
-function setData(data){
-        if (data["gameState"] == "busy" || data["gameState"] == "Busy"){
-                //setHtmlFromData(data,"name");
-                setMinefield(data["mineField"]);
-        }else{
-                $("#minefield").html("");
+function setData(data){        
+        if (data["gameState"] != "busy")
+        {
+                prepareMap(rows,cols,false)
         }
+        setMinefield(data["mineField"]);
         setHtmlFromData(data,"gameState");
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
@@ -80,17 +82,17 @@ function setMinefield(mf){
                                 //console.log("'" + mf[i][j] + "'");
                                 var checkMe = mf[i][j]
                                 switch (checkMe) {
-                                case "0":
+                                case 0:
                                         cssClass = "swmp_td_shown";
                                         break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                case 6:
+                                case 7:
+                                case 8:
                                         cssClass = "swmp_td_" + mf[i][j];
                                         break;
                                 case "f":
@@ -109,7 +111,7 @@ function setMinefield(mf){
                                 } 
                                 var id = "#cell" + i + "-" + j 
                                 //console.log("id " + id + " : " + cssClass)
-                                $(id).text(mf[i][j]);
+                                $(id).text(" "); //mf[i][j]
                                 $(id)
                                 // Remove all classes
                                 .removeClass()
@@ -150,15 +152,19 @@ function fillInValues(rows,cols,bombs){
         $("#bombs").val(bombs);
 }
 
-function prepareMap(rows,cols){
+function prepareMap(rows,cols,canClick){
         $("#minefield").html("");
-        var out = "<table>"
+        var out = "<table id='tableMinefield'>"
         for(var i = 0 ; i < rows; i++){
                 out += "<tr>"
                 for(var j = 0 ; j < rows; j++){
                         out += "<td id='cell" + i + "-" + j + "' class='swmp_td_hidden'";
-                        out += " onclick='leftClick(" + i + "," + j + ")'";
-                        out += " oncontextmenu='rightClick(" + i + "," + j + ");return false;'"; 
+                        if (canClick){
+                                out += " onclick='leftClick(" + i + "," + j + ")'";
+                                out += " oncontextmenu='rightClick(" + i + "," + j + ");return false;'"; 
+                        }else{
+                            out += " oncontextmenu='return false;'";     
+                        }
                         out += "</td>";                
                 }
                 out += "</tr>"

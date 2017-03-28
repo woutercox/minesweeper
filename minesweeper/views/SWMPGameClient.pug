@@ -10,8 +10,9 @@ html
       var apiUrl="#{apiUrl}"; 
       setMinefield(!{JSON.stringify(mineField)});
   body
-    div(id='gameClientWrapper')
-      div(id='gameClientTitle') New attack plan
+    div(id='gameClientTitle') New attack plan
+    br
+    div(id='gameClientWrapperSetup')  
       div(id='gameClientForm')
         form
           div
@@ -21,7 +22,7 @@ html
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='player', type='text', value='New Attack', name='name', class='swmp_largeInput')
+              input(id='name', type='text', value='New Attack', name='name', class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') name 
           br(style='clear:both')
           div
@@ -41,20 +42,23 @@ html
             br(style='clear:both')
           div
             input(type='button', value='attack !', onclick='startGame()', class='swmp_largeInputButton')
-      div(id='gameClientField', style='display:none')
-        div(id='ClientMinefieldMsg')
-        div(id='ClientMinefield')
-          div  
-            div(class='SWMP_content', id='gameState')= gameState
-            div(class='SWMP_label', id='gameState_label') game state 
-          br(style='clear:both')
-          div  
-            div(class='SWMP_content', id='flagsLeft')= flagsLeft
-            div(class='SWMP_label', id='flagsLeft_label') possible bombs left to place
-          br(style='clear:both')
-          div  
-            div(class='SWMP_content', id='timeElapsed')= timeElapsed
-            div(class='SWMP_label', id='timeElapsed_label') time elapsed
-          br(style='clear:both')
-          div(id="minefield",name="minefield")    
-          input(type='button', value='New attack', onclick='restartGame()', class='swmp_largeInputButton')
+    div(id='gameClientWrapperGame', style='display:none')
+      div(id='ClientMinefieldMsg')
+      div(id='ClientMinefield')
+        input(type='button', value='Scores', onclick='showTopScore()', class='swmp_3Buttons')
+        input(type='button', value='Info', onclick='showInfo()', class='swmp_3Buttons')
+        input(type='button', value='New', onclick='restartGame()', class='swmp_3Buttons')
+        div  
+          div(class='SWMP_content', id='gameState')= gameState
+          div(class='SWMP_label', id='gameState_label') game state 
+        br(style='clear:both')
+        div  
+          div(class='SWMP_content', id='flagsLeft')= flagsLeft
+          div(class='SWMP_label', id='flagsLeft_label') possible bombs left to place
+        br(style='clear:both')
+        div  
+          div(class='SWMP_content', id='timeElapsed')= timeElapsed
+          div(class='SWMP_label', id='timeElapsed_label') time elapsed
+        br(style='clear:both')
+      div(id="minefield",name="minefield")    
+          
