@@ -38,7 +38,11 @@ body{
   font-size:2em;
   text-align: center;
 }
-#ClientMinefield{width:300px;margin:auto}
+#clientMinefield, #statusWindow{width:300px;margin:auto; background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;}
+  #statusWindow{display:table;}
+#statusWindow div{float:left;width:33%};
+#minefield {display:table; margin:auto}
 #gameClientWrapperSetup{margin:auto;width:470px;
     background-color:rgba(129, 120, 104, .8);
     border:1px solid #757575;
@@ -61,3 +65,12 @@ body{
 .swmp_largeInput{width:95%;font-family: 'Purple Purse', cursive;font-size:1.5em}
 .swmp_largeInputButton{width:100%;font-family: 'Purple Purse', cursive;height:75px;font-size:1.5em}
 .swmp_3Buttons{width:33%;font-family: 'Purple Purse', cursive;font-size:1.5em}
+.SWMP_status_left,.SWMP_status_middle,.SWMP_status_right{
+  width:33%;font-family: 'Purple Purse', cursive;font-size:1.5em
+}
+.SWMP_status_left{text-align:left}
+.SWMP_status_middle{text-align: center}
+.SWMP_status_right{text-align:right}
+.gameclient_status_ico{width:28px;height:28px}
+#minefield{margin:auto;display:table}
+

@@ -91,7 +91,7 @@ class MineSweeperSession{
             else if (this.game.gameState == 1)
                 return "win"
             else 
-                return "loose"
+                return "lost"
         }
         this.time = 0;
         this.leftClick = function(row,col) {
@@ -241,18 +241,22 @@ class MineSweeperGame{
             if (this.spaces[row][col] != "b"){
                 this.show[row][col] = "s";
                 if (this.spaces[row][col] == 0){ //flood if the current value is empty
-                    //topleftif( row > 0 && col > 0) this.showConnectedRecursive(row - 1,col - 1)
                     if(row > 0) //top
                         this.showConnectedRecursive(row - 1 ,col)
-                    //topRight if(row > 0 && col < (this.cols - 1) ) this.showConnectedRecursive(row - 1 ,col + 1)
                     if(col> 0 ) //left
                         this.showConnectedRecursive(row,col - 1)
                     if(col < (this.cols - 1) ) //right
                         this.showConnectedRecursive(row,col + 1)
-                    //bottom left if( col > 0 && row < (this.rows - 1) )  this.showConnectedRecursive(row + 1 ,col - 1)
                     if(row < (this.rows - 1)) //bottom
                         this.showConnectedRecursive(row + 1,col)
-                    //bottomright if( col < (this.cols - 1) && row < (this.rows - 1)) this.showConnectedRecursive(row + 1 ,col + 1)
+                //topleft
+                    if( row > 0 && col > 0) this.showConnectedRecursive(row - 1,col - 1)
+                //topRight 
+                    if(row > 0 && col < (this.cols - 1) ) this.showConnectedRecursive(row - 1 ,col + 1)
+                //bottom left 
+                    if( col > 0 && row < (this.rows - 1) )  this.showConnectedRecursive(row + 1 ,col - 1)
+                //bottomright 
+                    if( col < (this.cols - 1) && row < (this.rows - 1)) this.showConnectedRecursive(row + 1 ,col + 1)
                 }
              }
         }
@@ -276,7 +280,9 @@ class MineSweeperGame{
                 this.show[row][col] = "f" // f for flagged
                 this.bombsFlagged++;
                 if (this.spaces[row][col] == "b") this.bombsFlaggedCorrectly++
-                if (this.allBombsFlaggedCorrectly()) this.gameState = 1 //WIN !!!!
+                if (this.allBombsFlaggedCorrectly()) 
+                    {this.gameState = 1; //WIN !!!!
+                        console.log("win")}
             }
             else if (this.show[row][col] == "f"){
                 this.bombsFlagged--;

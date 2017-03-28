@@ -75,9 +75,9 @@ function setData(data){
                 prepareMap(rows,cols,false)
         }
         setMinefield(data["mineField"]);
-        setHtmlFromData(data,"gameState");
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
+        $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");
 }
 function setMinefield(mf){
         if(mf)
