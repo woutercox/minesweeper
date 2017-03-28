@@ -119,7 +119,7 @@ app.get('/viewGame/:sessionID', function (req, res) {
     var viewData = repo.getViewData(sessionID);
     viewData.sessionID = sessionID;
     viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
-    res.render('SWMPClient', viewData)
+    res.render('SWMPViewClient', viewData)
 });
 
 app.get('/play', function (req, res) {
