@@ -1,4 +1,8 @@
+git init
+
 git remote add origin https://github.com/woutercox/minesweeper.git
+
+git pull origin master
 
 git add * (alles) git add . (gewijzigde files)
 

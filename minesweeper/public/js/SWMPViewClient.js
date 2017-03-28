@@ -103,4 +103,3 @@ function rightClick(row,col){
                 });
         return false;
 }
- 
