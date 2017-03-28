@@ -14,32 +14,37 @@ var cols =8;
 
 //# 
 function startGame(){
-        $("#gameClientTitle").html($("#name").val());
-        $("#gameClientWrapperSetup").toggle();
-        $("#ClientMinefieldMsg").html("Fetching battlemap");
-        $("#gameClientWrapperGame").toggle();
-        rows =  $("#rows").val();
-        cols = $("#cols").val();
-        prepareMap(rows,cols,true);
-        $.ajax({
-        type: "POST",
-                url: apiUrl + "startGame",
-                data: JSON.stringify({ name:$("#name").val(), rows : rows, cols : cols, bombs:$("#bombs").val() }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(data){
-//sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()
-                        sessionID = data["sessionID"]
-                        data.gameState = "busy"
-                        data.timeElapsed = 0;
-                        console.dir(data);
-                        setData(data)
-                         $("#ClientMinefieldMsg").html("");
-                },
-                failure: function(errMsg) {
-                        alert("Server issues " + errMsg);
-                }
-        });
+        if ($("#rows").val() == "" || $("#cols").val() == "" || $("#name").val() == "" || $("#bombs").val() == ""){
+                
+        }
+        else{
+                $("#gameClientTitle").html($("#name").val());
+                $("#gameClientWrapperSetup").toggle();
+                $("#ClientMinefieldMsg").html("Fetching battlemap");
+                $("#gameClientWrapperGame").toggle();
+                rows =  $("#rows").val();
+                cols = $("#cols").val();name:$("#name").val(), rows : rows, cols : cols, bombs:$("#bombs").val()
+                prepareMap(rows,cols,true);
+                $.ajax({
+                type: "POST",
+                        url: apiUrl + "startGame",
+                        data: JSON.stringify({ name:$("#name").val(), rows : rows, cols : cols, bombs:$("#bombs").val() }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data){
+        //sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()
+                                sessionID = data["sessionID"]
+                                data.gameState = "busy"
+                                data.timeElapsed = 0;
+                                console.dir(data);
+                                setData(data)
+                                $("#ClientMinefieldMsg").html("");
+                        },
+                        failure: function(errMsg) {
+                                alert("Server issues " + errMsg);
+                        }
+                });
+        }
 }
 
 function restartGame(){
