@@ -24,10 +24,12 @@ body {
   min-height: 100%;
 }
 body{
-    background:no-repeat center center url(https://worldofescapes.com/uploads/quests/2507/large/Chaos-Escape-Room.jpg);
-background-size: 100% 100%;}
-#map{background: no-repeat center center url(../img/multiplayermap.jpg);
-background-size: 100% 100%;height:600px;}
+  background:no-repeat center center url(https://worldofescapes.com/uploads/quests/2507/large/Chaos-Escape-Room.jpg);
+  background-size: 100% 100%;}
+#singleplayerMap{background: no-repeat center center url(../img/singleplayermap.jpg);
+  background-size: 100% 100%;height:600px;}
+#multiplayerMap{background: no-repeat center center url(../img/multiplayermap.jpg);
+  background-size: 100% 100%;height:600px;}
 #multiplayerWrapper{padding:5%;}
 .SWMP_label{}
 .SWMP_content{float:right}
@@ -42,6 +44,17 @@ background-size: 100% 100%;height:600px;}
     border:1px solid #757575;
     border-radius:5px}
 #gameClientWrapperGame{margin:auto;}
+#gameClientContainer{
+  position: relative;
+}
+#gameClientWrapper{margin:auto;width:470px;
+    background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;
+    border-radius:5px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    }
 #gameClientForm{padding:5px;color:white}
 #gameClientTitle{padding:5px;background-color:#757575;color:white}
 .swmp_smallInput{width:200px;font-family: 'Purple Purse', cursive;font-size:1.5em}
