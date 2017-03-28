@@ -1,0 +1,57 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
+    link(href='https://fonts.googleapis.com/css?family=Cinzel|Averia+Sans+Libre|Purple+Purse', rel="stylesheet")
+    script(src='/js/jquery-3.2.0.min.js')
+    script(src='/js/SWMPGameClient.js')
+    script.
+      var sessionID="#{sessionID}";
+      var apiUrl="#{apiUrl}"; 
+      setMinefield(!{JSON.stringify(mineField)});
+  body
+    div(id='gameClientTitle') New attack plan
+    br
+    div(id='gameClientWrapperSetup')  
+      div(id='gameClientForm')
+        form
+          div
+            input(type='button', value='beginner', onclick='fillInValues(8,8,10)', class='swmp_3Buttons')
+            input(type='button', value='intermediate', onclick='fillInValues(16,16,40)', class='swmp_3Buttons')
+            input(type='button', value='expert', onclick='fillInValues(16,32,99)', class='swmp_3Buttons')
+          br(style='clear:both')
+          div
+            div(class='SWMP_content')
+              input(id='name', type='text', value='New Attack', name='name', class='swmp_largeInput')
+            div(class='SWMP_label', id='player_label') name 
+          br(style='clear:both')
+          div
+            div(class='SWMP_content')
+              input(id='rows', type=number, name='rows', min=1, max =16, class='swmp_largeInput')
+            div(class='SWMP_label', id='player_label') Size 
+          br(style='clear:both')
+          div
+            div(class='SWMP_content')
+              input(id='cols', type=number, name='cols', min=1, max =16, class='swmp_largeInput')
+            div(class='SWMP_label', id='player_label') x 
+          br(style='clear:both')
+          div 
+            div(class='SWMP_content')
+              input(id='bombs', type=number, name='bombs', min=1, max =14, class='swmp_largeInput')
+            div(class='SWMP_label', id='bombs_label') Barrels
+            br(style='clear:both')
+          div
+            input(type='button', value='attack !', onclick='startGame()', class='swmp_largeInputButton')
+    div(id='gameClientWrapperGame', style='display:none')
+      div(id='clientMinefieldMsg')
+      div(id='clientMinefield')
+        input(type='button', value='Scores', onclick='showTopScore()', class='swmp_3Buttons')
+        input(type='button', value='Info', onclick='showInfo()', class='swmp_3Buttons')
+        input(type='button', value='New', onclick='restartGame()', class='swmp_3Buttons')
+      div(id='statusWindow')  
+        div(class='SWMP_status_left', id="flagsLeft")= flagsLeft 
+        div(class='SWMP_status_middle', id="gameState")= gameState
+        div(class='SWMP_status_right', id="timeElapsed")= timeElapsed
+      br(style='clear:both')
+      div(id="minefield",name="minefield")    
+          
