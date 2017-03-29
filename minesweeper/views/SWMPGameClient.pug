@@ -1,7 +1,10 @@
 doctype html
 html
   head
-    link(rel='stylesheet', href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    link(rel='stylesheet', href='/css/jquery-ui.css')
+    link(rel='stylesheet', href='/css/jquery-ui.min.css')
+    link(rel='stylesheet', href='/css/jquery-ui.structure.min.css')
+    link(rel='stylesheet', href='/css/jquery-ui.theme.css')
     link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
     link(href='https://fonts.googleapis.com/css?family=Cinzel|Averia+Sans+Libre|Purple+Purse', rel="stylesheet")
     script(src='/js/jquery-3.2.0.min.js')
@@ -56,7 +59,7 @@ html
         div(class='SWMP_status_right', id="timeElapsed")= timeElapsed
       br(style='clear:both')
       div(id="minefield",name="minefield")   
-    div(id='dialogGameInfo',title='Game Info')
+    div(id='dialogGameInfo',title='Booze Clues .. how to.')
       h3 How could a game with numbers and boxes be so amazingly difficult? 
       div Welcome detective,  the goal of your BoozeClues attack plan (like Minesweeper) is to find where all the booze barrels (bombs) are within a specific region, so we can raid them later and arrest those filthy criminals. 
         p If you think a booze factory is situated in a position click right to tag the place and show a gun on that square, this tells the police where to raid. 
@@ -64,5 +67,7 @@ html
         p To help you, the game shows a number in a square which tells you how many booze barrels (mines) there are adjacent to that square. 
         p You win when all the empty places (and numbered places) are revealed or all the booze barrels are tagged with a gun. 
         p So basically, Your task is to work out where the booze is without, revealing yourself. 
-        p don't blow it!
+        p don't blow it
+    div(id='dialogGoodJobKid',title='Good Job Kid, you found all the booze stashes')
+      img(src='../img/goodjobKid.png',class='goodJobImg')
           

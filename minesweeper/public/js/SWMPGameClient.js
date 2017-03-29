@@ -73,7 +73,13 @@ function setData(data){
         if (data["gameState"] != "busy")
         {
                 prepareMap(rows,cols,false)
+        }
+        if( data["gameState"] == "lost")
+        {
                 $("#minefield").effect( "shake" );
+        }else if( data["gameState"] == "win")
+        {
+                $( "#dialogGoodJobKid" ).dialog( "open" );
         }
         setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
@@ -193,5 +199,17 @@ $( function() {
         });
         $( "#showGameInfoButton" ).on( "click", function() {
                 $( "#dialogGameInfo" ).dialog( "open" );
+        });
+       $( "#dialogGoodJobKid" ).dialog({
+                width: 420,
+                autoOpen: false,
+                        show: {
+                        effect: "blind",
+                        duration: 1000
+                },
+                hide: {
+                        effect: "explode",
+                        duration: 1000
+                }
         });
 } );
