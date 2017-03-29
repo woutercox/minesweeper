@@ -22,27 +22,12 @@ function fetchEnLaadData(){
                         dataType: "json",
                         success: function(data){
                                 //do stuff
-                           
+                           laadDataInHtml(data);
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
                         }
                 });
-        $.ajax({
-        type: "POST",
-                url: apiUrl + "livegames",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(data){
-                        //do stuff
-                    
-                },
-                failure: function(errMsg) {
-                        alert("Server issues " + errMsg);
-                }
-        });
-
-
         //fetchgames : liveGamesRefresh
 
         //do calc
@@ -56,15 +41,27 @@ function laadDataInHtml(data){
         $.each(data, function( key, value ) {
         console.log( value.name, value.state );
     
-    $('#map').append("<div class='marker'></div>");    
+    $('#spawnPlaatsMarker').append("<div class='marker'></div>");    
     $('.marker:last-child').append('<p>'+ value.name +'</p>')
     $('.marker:last-child').append('<p>' + value.flagsleft + '</p>')
     $('.marker:last-child').append('<p>' + value.state + '</p>')
     $('.marker:last-child').append('<p>' + value.sessionID + '</p>')
     $('.marker:last-child').append('<p>' + value.timer + '</p>')
-    $a = $('<a href="' + apiUrl + "viewgame/" + value.sessionID + '"></a>').attr('class', 'linkMarker');
+    $a = $('<a href="' + apiUrl + "viewgame/" + value.sessionID + '"  target="_blank"></a>').attr('class', 'linkMarker');
     $('.marker:last-child').append($a);
-    $a.append('<img>')
+    $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
+    randomizePositie();
   });
+}
+
+function randomizePositie(){
+        var mapWidth = $('#spawnPlaatsMarker').width();
+        var mapHeight = $('#spawnPlaatsMarker').height();
+        console.log(mapWidth, mapHeight);
+        var randPosX = Math.floor((Math.random()*mapWidth));
+        var randPosY = Math.floor((Math.random()*mapHeight));
+
+        $('.marker:last-child').css('left', randPosX);
+        $('.marker:last-child').css('top', randPosY);
 }
  

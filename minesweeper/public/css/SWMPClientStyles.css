@@ -28,7 +28,7 @@ body{
 background-size: 100% 100%;}
 #map{background: no-repeat center center url(../img/multiplayermap.jpg);
 background-size: 100% 100%;height:600px;}
-#multiplayerWrapper{padding:5%;}
+#multiplayerWrapper{padding-top:5%;padding-bottom: 5%;}
 .SWMP_label{}
 .SWMP_content{float:right}
 #gameClientTitle{
@@ -46,3 +46,28 @@ background-size: 100% 100%;height:600px;}
 .swmp_largeInput{width:95%;font-family: 'Purple Purse', cursive;font-size:1.5em}
 .swmp_largeInputButton{width:100%;font-family: 'Purple Purse', cursive;height:75px;font-size:1.5em}
 .swmp_3Buttons{width:33%;font-family: 'Purple Purse', cursive;font-size:1.5em}
+
+#spawnPlaatsMarker{
+  position: relative;
+  height: 300px;
+  width: 1150px;
+  /*background-color: #757575;*/
+  top: 120px;
+  left: 70px;
+}
+
+
+
+.marker{
+  word-wrap: break;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+}
+
+.marker p {
+  display: none;
+}
