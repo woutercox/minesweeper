@@ -37,7 +37,7 @@ var SWMPRepo = function(){
         return Object.keys(this.runningGames).length;
     }
     this.getLiveGames = function(top){
-        var returnCnt = (top?top:9) - 1;
+        var returnCnt = 9;
         var output = new Array();
         for (var key in this.runningGames) {
             var go = this.runningGames[key];

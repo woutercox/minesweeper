@@ -132,6 +132,9 @@ app.get('/liveGames/', function (req, res) {
     viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
     //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
     //en  samengevoegd met data
+    if(viewData){
+        console.dir(viewData["games"].length);
+    }
     res.render('SWMPMultiplayer', viewData) 
 });
 
