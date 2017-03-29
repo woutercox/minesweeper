@@ -60,7 +60,7 @@ function startGame(){
 }
 
 function restartGame(){
-        timer = null;
+        clearInterval(timer);
         $("#gameClientTitle").html("New attack plan");
         $("#gameClientWrapperSetup").toggle()
         $("#gameClientWrapperGame").toggle()
