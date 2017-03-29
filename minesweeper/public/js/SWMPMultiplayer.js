@@ -41,20 +41,26 @@ function fetchEnLaadData(){
 function laadDataInHtml(data){       
         $.each(data, function( key, value ) {
                 $('#spawnPlaatsMarker').append("<div class='marker'></div>");    
-                $('.marker:last-child').append('<p>'+ value.name +'</p>')
+                /*$('.marker:last-child').append('<p>'+ value.name +'</p>')
                 $('.marker:last-child').append('<p>' + value.flagsleft + '</p>')
                 $('.marker:last-child').append('<p>' + value.state + '</p>')
-                $('.marker:last-child').append('<p>' + value.sessionID + '</p>')
-                $('.marker:last-child').append('<p>' + value.timer + '</p>')
-                $a = $('<a href="' + apiUrl + "viewgame/" + value.sessionID + '"  target="_blank"></a>').attr('class', 'animated');
+
+                $('.marker:last-child').append('<p>' + value.timer + '</p>')*/
+                $a = $('<a onclick=\'viewSession("' + apiUrl + "viewgame/" + value.sessionID + '", "' + value.name +'")\'></a>')
+                        .attr('title', value.name + " " + value.flagsleft + " " + value.state + " " + value.sessionID + " " + value.timer);
                 $('.marker:last-child').append($a);
                 $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
+                /*$a.hover(function(){
+                        this.effect("bounce")
+                })*/
+
                 do{ 
                         randomizePositie();
                 }
                 while(checkOverlap());
                 posities.push(huidigePositie);
         });
+        $('document').tooltip();
 }
 
 function randomizePositie(){
@@ -82,4 +88,17 @@ function checkOverlap(){
                 }
                 return false;
         }
+}
+
+function viewSession(url, name){
+        var $dialog = $('<div></div>')
+               .html('<iframe style="border: 0px; " src="' + url + '" width="100%" height="100%"></iframe>')
+               .dialog({
+                   autoOpen: false,
+                  /* modal: true,*/
+                   height: 625,
+                   width: 500,
+                   title: name
+               });
+        $dialog.dialog('open');
 }
