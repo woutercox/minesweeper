@@ -1,1 +1,1 @@
-web: node MineSwerver.js
+web: MineSwerver.js

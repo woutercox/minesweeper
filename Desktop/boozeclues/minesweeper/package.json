@@ -1,0 +1,21 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "MineSwerver.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cool-ascii-faces": "1.3.4",
+    "express": "^4.15.2",
+    "path": "^0.12.7",
+    "pug": "^2.0.0-beta11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node MineSwerver.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

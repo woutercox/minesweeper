@@ -2,12 +2,13 @@
 //server specific settings
 const PROTOCOL = "http://"
 const HOST = "localhost"
-const PORT = 8081;
+const PORT = 8082;
 const SERVERNAME = "MineSwerver"
 const VERSIONNAME = "0.15"
 /* Libraries 'verkrijgen' */
 var SWMPRepo = require('./SWMPRepo'); //main code of app
 var repo = new SWMPRepo();
+var cool = require('cool-ascii-faces');
 var express = require('express');
 var app = express();
 var path = require("path");
@@ -28,6 +29,10 @@ app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-reqed-With, Content-Type, Accept");
     next();
+});
+
+app.get('/cool', function(request, response) {
+  response.send(cool());
 });
 
 app.get('/test', function (req, res) {
