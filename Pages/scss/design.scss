@@ -1,0 +1,195 @@
+/* Noise background and radial gradient (lighting) */
+body {
+    background: url('../img/bg_dark_noise.png'), radial-gradient(8% 77%, #FFFFFF 0%, #000000 82%) no-repeat center center !important;
+    background-size: cover !important;
+    overflow: auto;
+    min-height: 100vh;
+}
+
+/* Alley background, comes on top of the (transparent) noise background */
+#container {
+    // padding-bottom: 5vh;
+    background: url('../img/bg_alley.png'), url('../img/newspaper_hush.png'), url('../img/wanted_poster.png');
+    background-size: cover contain;
+    background-repeat: no-repeat no-repeat;
+    background-position: center center, top left, bottom right;
+}
+
+/* Big introduction paragraph at top of the page */
+.introduction {
+    font-family: 'Purple Purse', cursive;
+    font-size: 48px;
+    color: #D4D4D2;
+    line-height: rem-calc(60);
+    margin-top: rem-calc(30);
+    margin-bottom: rem-calc(79);
+}
+
+/* Content frame in the center of the page */
+#content-frame {
+    margin: 0;
+    padding: 0;
+    border: none;
+    transform: skewX(-15deg);
+    //background: rgba(66, 66, 66, .3);
+    // box-sizing: content-box;
+    border-radius: rem-calc(74);
+    box-shadow: 20px 20px 60px 12px rgba(0,0,0,0.90);
+
+}
+
+
+#content-area {
+    font-family: 'Averia Sans Libre';
+    border-radius: rem-calc(74);
+    box-shadow: inset 10px 10px 15px rgba(0,0,0,0.3);
+
+    color: #000;
+    
+    /* Rectangle: */
+    background: rgba(255, 255, 255, 0.9);
+    min-height: rem-calc(282);
+    padding-bottom: rem-calc(42);
+}
+
+
+.title {
+    font-size: rem-calc(36);
+    color: #897860;
+    transform: skewX(15deg);
+    padding-top: rem-calc(33);
+    margin-bottom: rem-calc(19);
+    margin-left: rem-calc(-74);
+    
+}
+
+.description {
+    font-size: rem-calc(28);
+    transform: skewX(15deg);
+    margin-bottom: rem-calc(35);
+}
+
+.membership {    
+    font-family: "Purple Purse", cursive;
+    font-size: rem-calc(24);
+    color: #A74E4E;
+    transform: skewX(15deg);
+    margin-bottom: rem-calc(24);
+    margin-left: rem-calc(-74);
+    
+}
+
+#section-card {
+    transform: skewX(15deg);
+}
+
+
+
+#card {
+    position: relative;
+}
+
+.member-name {
+    position: absolute;
+    top: 50%;
+    width: rem-calc(345);
+    left: 50%;
+    margin-left: rem-calc(-10);
+    transform: translateX(-50%);
+   
+    margin-top: rem-calc(15);
+    font-size: rem-calc(16);
+        a {
+            color: #F56F6F;
+            border-bottom: 1px dashed #F56F6F;
+            
+            &:hover {
+                border: none;
+                color: #F56F6F;
+            }
+        }
+    }
+
+#door {
+    position: relative;
+    padding-top: rem-calc(34);
+    bottom: 0;
+    left: 0;
+}
+
+.door-text {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%);
+    max-width: rem-calc(190);
+    padding: rem-calc(20);
+    
+    a {
+        font-family: 'Purple Purse';
+        font-size: rem-calc(30);
+        color: #343434;
+        text-shadow: 4px 4px 6px rgba(0,0,0,0.50);    
+        border-bottom: 1px solid #C4513D;
+        
+        &:hover {
+            color: #343434;
+             text-shadow: 4px 4px 6px rgba(0,0,0,0.75); 
+        }
+    }
+}
+
+/* Modal Styling */
+.reveal {
+    color: #333;
+    
+    background: url('../img/member_card_modal.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 672px !important;
+    width: 928px !important;
+    border: 4px red;
+    border-radius: 12px !important;
+    
+    .skills-header {
+        font-family: 'Purple Purse';
+        color: #4C3118;
+        font-size: rem-calc(40);
+        line-height: 1em;
+        margin-top: rem-calc(100);  
+
+    }
+    
+  
+    .skills-left, .skills-right {  
+        list-style: none;
+        font-family: 'Purple Purse';
+        font-size: rem-calc(28);
+        color: #4C3118;
+        line-height: rem-calc(50);
+        margin-top: rem-calc(40);
+
+    }
+    
+    h2 {
+        font-family: 'Purple Purse';
+        font-size: 36px;
+        color: #F56F6F;
+    }
+    
+    h3 {
+        font-family: 'Purple Purse';
+        a {
+            font-size: 36px;
+            color: #615747;
+            border-bottom: 1px solid #615747;
+            
+            &:hover {
+                border-bottom: none;
+            }
+        }
+        
+    }
+    
+}
+

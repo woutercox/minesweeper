@@ -14,6 +14,24 @@ var path = require("path");
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+var mongoose = require('mongoose');
+ 
+mongoose.connect('mongodb://Admin:admin@ds145370.mlab.com:45370/boozecluesdatab', function(){
+    console.log('connected succesfully')
+});
+
+var HighScore = require('./highScore')
+
+app.post('/highscore', function(req, res){
+    var highScore = new HighScore();
+    highScore.name = req.body.name;
+    highScore.score = req.body.score;
+    HighScore.findOne({name: 'test'}, function(error, res){
+        console.log(res);
+    })
+    highScore.save();
+    res.send('user saved');
+})
 
 //viewengine = pug = jade
 app.set('view engine', 'pug')
