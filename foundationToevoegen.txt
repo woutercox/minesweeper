@@ -1,0 +1,5 @@
+	In de <head> tag toevoegen VOOR de eigen CSS:
+
+    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.css">
+
+	Modal/pop-up: http://foundation.zurb.com/sites/docs/reveal.html
