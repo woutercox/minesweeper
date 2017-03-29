@@ -226,6 +226,8 @@ class MineSweeperGame{
         for (var i = 0; i < this.rows; i++) {  
             out[i] = new Array(this.cols)
             for (var j = 0; j < this.cols; j++) {
+                if (this.gameState != 0 && this.spaces[i][j] == "b" )
+                    this.show[i][j] = "s"
                 if (this.show[i][j] == "s" )
                     out[i][j] = this.spaces[i][j];
                 else 
