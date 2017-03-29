@@ -1,6 +1,7 @@
 //available variables from pug template .script :
 /* sessionID = session id of the current game
    apiUrl = rest service url */
+var posities = [];
 
 function load() {
   test();
@@ -60,8 +61,20 @@ function randomizePositie(){
         console.log(mapWidth, mapHeight);
         var randPosX = Math.floor((Math.random()*mapWidth));
         var randPosY = Math.floor((Math.random()*mapHeight));
+        var randPositieY = (randPosY - 50)
 
         $('.marker:last-child').css('left', randPosX);
-        $('.marker:last-child').css('top', randPosY);
+        $('.marker:last-child').css('top', randPositieY);
+
+        var positie = {
+        y : randPositieY,
+        x : randPosX
+        } 
+        posities.push(positie);
+        console.log(posities);
+}
+
+function checkOverlap(positie){
+        if(positie)
 }
  
