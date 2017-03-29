@@ -47,7 +47,7 @@ function laadDataInHtml(data){
 
                 $('.marker:last-child').append('<p>' + value.timer + '</p>')*/
                 $a = $('<a onclick=\'viewSession("' + apiUrl + "viewgame/" + value.sessionID + '", "' + value.name +'")\'></a>')
-                        .attr('title', 'game : ' + value.name + "\nbombs : " + value.flagsleft + "\nstate : " + value.state + "\ntime : " + value.timer);
+                        .attr('title', 'game : ' + value.name + "\nbooze barrels : " + value.flagsleft + "\nstate : " + value.state + "\ntime : " + value.timer);
                 $('.marker:last-child').append($a);
                 $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
                 /*$a.hover(function(){
