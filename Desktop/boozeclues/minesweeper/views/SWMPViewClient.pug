@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
+    script(src='/js/jquery-3.2.0.min.js')
+    script(src='/js/SWMPViewClient.js')
+    script.
+      var apiUrl="#{apiUrl}"; 
+      setMinefield(!{JSON.stringify(mineField)});
+  body
+    p Welcome to the Minesweeper alfa client using PUG (Jade) templating.
+    div
+      div(class='SWMP_label', id='player_label') player 
+      div(class='SWMP_content', id='player')= name
+    div  
+      div(class='SWMP_label', id='gameState_label') game state 
+      div(class='SWMP_content', id='gameState')= gameState
+    div  
+      div(class='SWMP_label', id='flagsLeft_label') possible bombs left to place
+      div(class='SWMP_content', id='flagsLeft')= flagsLeft
+    div  
+      div(class='SWMP_label', id='timeElapsed_label') time elapsed
+      div(class='SWMP_content', id='timeElapsed')= timeElapsed
+    table(id="minefield",name="minefield")
+      - for (var i=0; i<mineField.length; i++)
+        tr
+          - for (var j=0; j<mineField[i].length; j++)
+            td(id="cell" + i + "-" + j, class='swmp_td_hidden', onclick="leftClick(" + i + "," + j + ")", oncontextmenu="rightClick(" + i + "," + j + ");return false;")

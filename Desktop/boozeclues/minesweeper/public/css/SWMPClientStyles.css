@@ -1,0 +1,115 @@
+td {border:1px solid #080808;height:38px;width:38px}
+.swmp_td_hidden{background: #757575 no-repeat center center url(../img/hiddenx28.png)}
+.swmp_td_shown{background:#D4D4D2 no-repeat center center url(../img/showx28.png)}
+.swmp_td_flag{background:#757575 no-repeat center center url(../img/flagx28.png)}
+.swmp_td_question{background:#757575 no-repeat center center url(../img/questionx28.png)}
+<<<<<<< HEAD
+.swmp_td_bomb{background:#C4513D no-repeat center center url(../img/bombx28.png)}
+=======
+.swmp_td_bomb{background:#A74E4E no-repeat center center url(../img/bombx28.png)}
+>>>>>>> acb7d0ccb41e11c85fde8f12c8c95a5ae8c8eb8f
+.swmp_td_1{background:#D4D4D2 no-repeat center center url(../img/1x28.png)}
+.swmp_td_2{background:#D4D4D2 no-repeat center center url(../img/2x28.png)}
+.swmp_td_3{background:#D4D4D2 no-repeat center center url(../img/3x28.png)}
+.swmp_td_4{background:#D4D4D2 no-repeat center center url(../img/4x28.png)}
+.swmp_td_5{background:#D4D4D2 no-repeat center center url(../img/5x28.png)}
+.swmp_td_6{background:#D4D4D2 no-repeat center center url(../img/6x28.png)}
+.swmp_td_7{background:#D4D4D2 no-repeat center center url(../img/7x28.png)}
+.swmp_td_8{background:#D4D4D2 no-repeat center center url(../img/8x28.png)}
+html{
+  font-family: 'Purple Purse', cursive;
+  height: 100%;
+  padding:0px;
+  margin:0px;
+}
+body {
+  padding:0px;
+  margin:0px;
+  min-height: 100%;
+}
+body{
+
+    background:no-repeat center center url(https://worldofescapes.com/uploads/quests/2507/large/Chaos-Escape-Room.jpg);
+background-size: 100% 100%;}
+#map{background: no-repeat center center url(../img/multiplayermap.jpg);
+background-size: 100% 100%;height:600px;}
+#multiplayerWrapper{padding-top:5%;padding-bottom: 5%;}
+
+  background:no-repeat center center url(https://worldofescapes.com/uploads/quests/2507/large/Chaos-Escape-Room.jpg);
+  background-size: 100% 100%;}
+#singleplayerMap{background: no-repeat center center url(../img/singleplayermap.jpg);
+  background-size: 100% 100%;height:600px;}
+#multiplayerMap{background: no-repeat center center url(../img/multiplayermap.jpg);
+  background-size: 100% 100%;height:600px;}
+#multiplayerWrapper{padding-top:5%;padding-bottom: 5%;}
+
+.SWMP_label{}
+.SWMP_content{float:right}
+#gameClientTitle{
+  font-weight:bold;
+  font-size:2em;
+  text-align: center;
+}
+#clientMinefield, #statusWindow{width:300px;margin:auto; background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;}
+  #statusWindow{display:table;}
+#statusWindow div{float:left;width:33%};
+#minefield {display:table; margin:auto}
+#gameClientWrapperSetup{margin:auto;width:470px;
+    background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;
+    border-radius:5px}
+#gameClientWrapperGame{margin:auto;}
+#gameClientContainer{
+  position: relative;
+}
+#gameClientWrapper{margin:auto;width:470px;
+    background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;
+    border-radius:5px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    }
+#gameClientForm{padding:5px;color:white}
+#gameClientTitle{padding:5px;background-color:#757575;color:white}
+.swmp_smallInput{width:200px;font-family: 'Purple Purse', cursive;font-size:1.5em}
+.swmp_largeInput{width:95%;font-family: 'Purple Purse', cursive;font-size:1.5em}
+.swmp_largeInputButton{width:100%;font-family: 'Purple Purse', cursive;height:75px;font-size:1.5em}
+.swmp_3Buttons{width:33%;font-family: 'Purple Purse', cursive;font-size:1.5em}
+
+#spawnPlaatsMarker{
+  position: relative;
+  height: 280px;
+  width: 1150px;
+  /*background-color: #757575;*/
+  top: 120px;
+  left: 70px;
+}
+
+
+
+.marker{
+  word-wrap: break;
+  /*width: 100px;
+  height: 100px;*/
+  padding: 10px;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+}
+
+.marker p {
+  display: none;
+}
+
+.SWMP_status_left,.SWMP_status_middle,.SWMP_status_right{
+  width:33%;font-family: 'Purple Purse', cursive;font-size:1.5em
+}
+.SWMP_status_left{text-align:left}
+.SWMP_status_middle{text-align: center}
+.SWMP_status_right{text-align:right}
+.gameclient_status_ico{width:28px;height:28px}
+#minefield{margin:auto;display:table}
+
+

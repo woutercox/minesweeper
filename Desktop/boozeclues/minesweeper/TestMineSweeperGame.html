@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        
+        <script src="model/MineSweeperGame.js" type="text/javascript"></script>
+        <!--
+        <script scr="MineSweeperGameTest.js" type="text/javascript"></script>-->
+        <script>
+        'use strict';
+var game 
+window.onload = function(){         
+    game = new MineSweeperGame(10,10,30);
+    game.start();
+    document.getElementById("out").value  = game.GetTestOutput()
+    document.getElementById("data").value  = game.getTestData()
+}
+function clickaTile(){
+    game.clickTile(parseInt(document.getElementById("row").value),parseInt(document.getElementById("col").value));
+    document.getElementById("out").value  = game.GetTestOutput()
+}
+        </script>
+    </head>
+    <body>
+    <div>
+        <div>
+            <div style="float:left">
+                <textarea id="out" style="width:300px;height:200px"></textarea>
+            </div>
+            <div style="float:left">
+                <textarea id="data" style="width:300px;height:200px"></textarea>
+            </div>
+        </div>
+        
+        <input type="text" name="row" id="row" value="5" />
+        <input type="text" name="col" id="col" value="5" />
+        <input type="button" value="submit" onclick="clickaTile()">
+        
+    </div>
+    </body>
+<html>

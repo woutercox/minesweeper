@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/css/SWMPClientStyles.css', type='text/css')  
+    script(src='/js/jquery-3.2.0.min.js')
+    script(src='/js/SWMPMultiplayer.js')
+    script.
+      var apiUrl="#{apiUrl}"; 
+      window.onload = function(){
+        laadDataInHtml(!{JSON.stringify(games)});
+      }
+  body
+    div(id="multiplayerWrapper")
+      div(id="map")
+        div(id="spawnPlaatsMarker")
