@@ -122,29 +122,36 @@ app.get('/viewGame/:sessionID', function (req, res) {
     res.render('SWMPViewClient', viewData)
 });
 
+app.post('/viewGameData', function (req, res) {
+    var sessionID = req.body.sessionID;
+    var viewData = repo.getViewDataWithColsAndRows(sessionID);
+    viewData.sessionID = sessionID;
+    res.status(200).send(JSON.stringify(viewData));  
+});
+
 app.get('/play', function (req, res) {
     res.render('SWMPGameClient', {apiUrl: PROTOCOL + HOST  + ":" + PORT + "/"})
 });
 
 app.get('/liveGames/', function (req, res) {
-    var gameCount = 9 //req.params.count;
+    console.log("livegames served")
+    var gameCount = 9; //req.params.count || 
     var viewData = repo.getLiveGames(gameCount);
     viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
+    if(viewData && viewData["games"]){
+        console.log("games served : " + viewData["games"].length);
+    }else{
+        console.log("no games to serve")
+    }
     //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
     //en  samengevoegd met data
-    if(viewData){
-        console.dir(viewData["games"].length);
-    }
     res.render('SWMPMultiplayer', viewData) 
 });
 
 app.get('/liveGamesRefresh/', function (req, res) {
     var gameCount = 9 //req.params.count;
     var viewData = repo.getLiveGames(gameCount);
-    viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
-    //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
-    //en  samengevoegd met data
-     res.status(200).send(JSON.stringify(viewData));  
+    res.status(200).send(JSON.stringify(viewData));  
 });
 
 // Listen on port

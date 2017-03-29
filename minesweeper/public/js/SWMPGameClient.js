@@ -83,7 +83,7 @@ function leftClick(row,col){
                 });
 }
 function setData(data){        
-        setTime(data["timeElapsed"]);
+        
         if (data["gameState"] != "busy")
         {
                 prepareMap(rows,cols,false)
@@ -98,6 +98,7 @@ function setData(data){
                 clearInterval(timer);
                 $( "#dialogGoodJobKid" ).dialog( "open" );
         }
+        setTime(data["timeElapsed"]);
         setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
         $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");

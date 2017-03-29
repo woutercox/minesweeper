@@ -6,7 +6,18 @@ const MINESWEEPERGAME_DEFAULT_BOMBS = 10;
 //minesweeper multiplayer demo
 var SWMPRepo = function(){
     this.runningGames = [];
+    this.clearOldGames = function(){
+        var idleTimer = 30 * 60 * 1000;
+        var wonLossTimer = 1 * 60 * 1000;
+         for (var key in this.runningGames) {
+            var go = this.runningGames[key];
+            //response.write(go.timeElapsed);
+            //response.write(go.gameState);
+            //terminateGame
+         }
+    }
     this.newGame = function(name, rows , cols , bombs){
+        this.clearOldGames();
         var msmpSes = new MineSweeperSession(name, rows, cols , bombs)
         var sessionID = this.genSessionID();
         while(sessionID in this.runningGames) sessionID = this.genSessionID();
@@ -33,11 +44,19 @@ var SWMPRepo = function(){
          var go = this.getGame(sessionID);
          return this.getViewDataFromGameObject(sessionID,go);
     }
+    this.getViewDataWithColsAndRows = function(sessionID){
+         var go = this.getGame(sessionID);
+         var ro =  this.getViewDataFromGameObject(sessionID,go);
+         ro.cols = go.game.cols;
+         ro.rows = go.game.rows;
+         return ro;
+    }
     this.activeGamesCount = function(){
         return Object.keys(this.runningGames).length;
     }
     this.getLiveGames = function(top){
-        var returnCnt = 9;
+        console.log("getLiveGames " + top)
+        var returnCnt = top;
         var output = new Array();
         for (var key in this.runningGames) {
             var go = this.runningGames[key];
@@ -48,7 +67,7 @@ var SWMPRepo = function(){
                     flagsleft:go.bombFlagsLeft(),
                     timer:go.timeElapsed()
             })
-            if (! --returnCnt) return output
+            if (! --returnCnt) return { games : output}
         }
         return { games : output}
     }
@@ -172,7 +191,7 @@ class MineSweeperGame{
                         this.spaces[i][j]++
                     //topright
                     if(i > 0 && j < (this.cols - 1)  && this.spaces[i-1][j+1] == "b") 
-                        this.spaces[i][j]++
+                        this.spaces[i][j]++;
                     //left
                     if(j > 0  && this.spaces[i][j-1] == "b") 
                         this.spaces[i][j]++

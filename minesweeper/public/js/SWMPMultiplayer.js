@@ -11,15 +11,16 @@ window.onload = load;
 
 function test(row,col){
         /* Server api expects   :  */
-      alert("js werkt , jeej");
+      //alert("js werkt , jeej");
 }
 
 
 function fetchEnLaadData(){
+        var gameCount = 15;
         //laad alles via ajax
         $.ajax({
                 type: "POST",
-                        url: apiUrl + "livegames",
+                        url: apiUrl + "livegames/" + gameCount,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data){
@@ -30,11 +31,7 @@ function fetchEnLaadData(){
                                 alert("Server issues " + errMsg);
                         }
                 });
-        //fetchgames : liveGamesRefresh
-
-        //do calc
-
-        //laad in html . laadDataInHtml
+        //TODO:fetchgames : liveGamesRefresh
 }
 
 //wordt aangeroepen door de server , naam niet aanpassen !
