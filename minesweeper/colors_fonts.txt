@@ -1,0 +1,28 @@
+# Minesweeper bord
+
+hidden vakje- #757575
+open vakje - #D4D4D2
+border kleur- #080808
+getallen:
+    1 - #8F7E62
+    2 - #736247
+    3 - #615747
+    4 - #52493C
+    5 - #934B3E
+    6 - #C4513D
+    7 - #DC4126
+    8 - #F63513
+lijnkleur: #FFFFFF
+
+#Startpagina
+
+Kop 1 (in a dark alley...) - #D4D4D2
+Kop 2 (track down...) - #897860
+
+#Member - #A74E4E
+
+kaartje:
+    - #Member name - #F56F6F
+
+Oranje deur: #FE7C00
+
