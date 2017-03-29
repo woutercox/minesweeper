@@ -3,7 +3,11 @@ td {border:1px solid #080808;height:38px;width:38px}
 .swmp_td_shown{background:#D4D4D2 no-repeat center center url(../img/showx28.png)}
 .swmp_td_flag{background:#757575 no-repeat center center url(../img/flagx28.png)}
 .swmp_td_question{background:#757575 no-repeat center center url(../img/questionx28.png)}
+<<<<<<< HEAD
+.swmp_td_bomb{background:#C4513D no-repeat center center url(../img/bombx28.png)}
+=======
 .swmp_td_bomb{background:#A74E4E no-repeat center center url(../img/bombx28.png)}
+>>>>>>> acb7d0ccb41e11c85fde8f12c8c95a5ae8c8eb8f
 .swmp_td_1{background:#D4D4D2 no-repeat center center url(../img/1x28.png)}
 .swmp_td_2{background:#D4D4D2 no-repeat center center url(../img/2x28.png)}
 .swmp_td_3{background:#D4D4D2 no-repeat center center url(../img/3x28.png)}
@@ -78,16 +82,16 @@ background-size: 100% 100%;height:600px;}
 
 #spawnPlaatsMarker{
   position: relative;
-  height: 300px;
+  height: 280px;
   width: 1150px;
-  background-color: #757575;
+  /*background-color: #757575;*/
   top: 120px;
   left: 70px;
 }
 .marker{
   word-wrap: break;
-  width: 100px;
-  height: 100px;
+  /*width: 100px;
+  height: 100px;*/
   padding: 10px;
   text-align: center;
   position: absolute;
