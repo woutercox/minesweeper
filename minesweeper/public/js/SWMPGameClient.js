@@ -11,7 +11,18 @@ var SessionID = "";
 var currentFlagsLeft = "";
 var rows=8;
 var cols =8;
+var timer = null;
+var time = 0;
+var interval = 200;
 
+function fTimer(){   
+        setTime(time + interval / 1000);
+};
+
+function setTime(itime){
+        time = 1 * itime;
+        $("#timeElapsed").text(time.toFixed(2));
+}
 //# 
 function startGame(){
         if ($("#rows").val() == "" || $("#cols").val() == "" || $("#name").val() == "" || $("#bombs").val() == ""){
@@ -39,6 +50,7 @@ function startGame(){
                                 console.dir(data);
                                 setData(data)
                                 $("#ClientMinefieldMsg").html("");
+                                timer = setInterval(fTimer, interval);
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
@@ -48,6 +60,7 @@ function startGame(){
 }
 
 function restartGame(){
+        timer = null;
         $("#gameClientTitle").html("New attack plan");
         $("#gameClientWrapperSetup").toggle()
         $("#gameClientWrapperGame").toggle()
@@ -70,20 +83,23 @@ function leftClick(row,col){
                 });
 }
 function setData(data){        
+        setTime(data["timeElapsed"]);
         if (data["gameState"] != "busy")
         {
                 prepareMap(rows,cols,false)
         }
         if( data["gameState"] == "lost")
         {
+                clearInterval(timer);
                 $("#minefield").effect( "shake" );
+                $( "#dialogBadJobKid" ).dialog( "open" );
         }else if( data["gameState"] == "win")
         {
+                clearInterval(timer);
                 $( "#dialogGoodJobKid" ).dialog( "open" );
         }
         setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
-        setHtmlFromData(data,"timeElapsed");
         $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");
 }
 function setMinefield(mf){
@@ -187,6 +203,7 @@ function prepareMap(rows,cols,canClick){
 $( function() {
         $( "#dialogGameInfo" ).dialog({
                 width: 600,
+                modal:true,
                 autoOpen: false,
                         show: {
                         effect: "blind",
@@ -201,7 +218,21 @@ $( function() {
                 $( "#dialogGameInfo" ).dialog( "open" );
         });
        $( "#dialogGoodJobKid" ).dialog({
-                width: 420,
+                width: 320,
+                modal:true,
+                autoOpen: false,
+                        show: {
+                        effect: "blind",
+                        duration: 1000
+                },
+                hide: {
+                        effect: "explode",
+                        duration: 1000
+                }
+        });
+        $( "#dialogBadJobKid" ).dialog({
+                width: 320,
+                modal:true,
                 autoOpen: false,
                         show: {
                         effect: "blind",
