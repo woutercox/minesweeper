@@ -14,10 +14,10 @@ var path = require("path");
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 var mongoose = require('mongoose');
- 
 mongoose.connect('mongodb://Admin:admin@ds145370.mlab.com:45370/boozecluesdatab', function(){
-    console.log('connected succesfully')
+    console.log('connected with mongoDB')
 });
 
 var HighScore = require('./highScore')
@@ -26,12 +26,22 @@ app.post('/highscore', function(req, res){
     var highScore = new HighScore();
     highScore.name = req.body.name;
     highScore.score = req.body.score;
-    HighScore.findOne({name: 'test'}, function(error, res){
-        console.log(res);
-    })
     highScore.save();
     res.send('user saved');
 })
+
+app.get('/getTop3', function(req, res){
+    var cols;
+    var rows;
+   HighScore.find({cols: cols,rows:rows}, 
+    function(error, res){
+        console.log(res);
+    }
+    )
+
+    res.send('user saved');
+})
+
 
 //viewengine = pug = jade
 app.set('view engine', 'pug')
@@ -88,10 +98,17 @@ app.post('/startGame', function(req, res) {
     res.status(200).send(JSON.stringify(ro));
 });
 
-// Perform a leftCLick in a game and retrieve the result
+// Perform a pause in a game and retrieve the result
 app.post('/pauseGame', function(req, res) {
     var sessionID = req.body.sessionID;
     var ro = repo.pause(sessionID);
+    res.status(200).send(JSON.stringify(ro));
+});
+
+// Perform an unpause in a game and retrieve the result
+app.post('/unPauseGame', function(req, res) {
+    var sessionID = req.body.sessionID;
+    var ro = repo.unPause(sessionID);
     res.status(200).send(JSON.stringify(ro));
 });
 

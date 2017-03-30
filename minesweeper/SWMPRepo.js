@@ -25,20 +25,28 @@ var SWMPRepo = function(){
         console.log("new game with id " + sessionID)
         return {sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()};
     }
-    this.pauze= function(sessionID){
+    this.pause= function(sessionID){
         var go = this.getGame(sessionID);
-        go.time = 
+        go.pause();
+        return this.getViewDataFromGameObject(sessionID,go);
+    } 
+    this.unPause= function(sessionID){
+        var go = this.getGame(sessionID);
+        go.unPause();
+        return this.getViewDataFromGameObject(sessionID,go);
     } 
     this.leftClickAndGetViewData= function(sessionID, row, col){
         console.log("left click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
-        go.leftClick(row,col);
+        if (go.gameState == 0)
+            go.leftClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
     }
     this.rightClickAndGetViewData= function(sessionID, row, col){
         console.log("right click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
-        go.rightClick(row,col);
+        if (go.gameState == 0)
+            go.rightClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
     }
     this.getViewDataFromGameObject= function(sessionID,go){
@@ -107,7 +115,22 @@ class MineSweeperSession{
         this.bombFlagsLeft = function (){return this.game.bombFlagsLeft()};
         this.viewData  = function (){return this.game.getViewData()};
         this.gameState = this.game.gameState;
-        this.timeElapsed = function(){return (new Date() - this.start) / 1000;}
+        this.clickCount = 0;
+        this.time = 0;
+        this.timeElapsed = function(){
+            if(this.game.gameState == 0)
+                return (new Date() - this.start) / 1000;
+            else
+                return this.time;
+        }
+        this.pause = function(){
+            this.game.gameState = 3;
+            this.time = (new Date() - this.start) / 1000;
+        }
+        this.unPause = function(){
+            this.game.gameState = 0;
+            this.time = 0;
+        }
         this.gameStateString = function(){
             if (this.game.gameState == 0)
                 return "busy"
@@ -116,23 +139,21 @@ class MineSweeperSession{
             else if (this.game.gameState == 2)
                 return "lost"
             else if (this.game.gameState == 3)
-                return "pauze"
+                return "pause"
         }
-        this.time = 0;
         this.leftClick = function(row,col) {
              this.game.clickTile(row,col)
              this.clickCount++;
              if (this.game.gameState == 2 || this.game.gameState == 1) //stop game
-                this.time = new Date() - this.start
+                this.time = (new Date() - this.start) / 1000
         } 
         this.rightClick = function(row,col){
             this.game.rightClickTile(row,col)
             this.clickCount++;
             if (this.game.gameState == 1 || this.game.gameState == 2) //stop game
-                this.time = new Date() - this.start
+                this.time = (new Date() - this.start) / 1000
             return this.viewData();
         }
-        this.clickCount = 0;
     }
 }
 
