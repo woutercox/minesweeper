@@ -10,7 +10,8 @@ function load() {
                 return (c=='x' ? r : (r&0x3|0x8)).toString(16);
         });
         var guest = "Guest " + uuid.toUpperCase();
-        $("#name").val(guest);
+        //$("#name").val(guest);
+        $("#name").val("sjoeke");
 }
 window.onload = load;
 
@@ -122,6 +123,39 @@ function leftClick(row,col){
                                 alert("Server issues " + errMsg);
                         }
                 });
+}
+
+function showGamePlay(){
+        $("#gamePlays").show();
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "getGamePlays",
+
+                data: JSON.stringify({ player: $("#name").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        loadGamePlaysInHtml(data)        
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+}
+
+function loadGamePlaysInHtml(data){
+        var out = "";
+        for (var i=0; i < data.length; i++){
+               out += "<div class='gameTypePlayed'>"
+               out += "<div class='gameTypePlayedLeft'>1 st ,  10s</div>"
+               out += "<div class='gameTypePlayedRight'><input type='button' value ='play'></div>"
+               out += "<div class='gameTypePlayedMiddle'>" + data[i]["_id"]["rows"]  ;
+               out += " * " +  data[i]["_id"]["collums"];
+               out += " b :" + data[i]["_id"]["bombs"];
+               out += "</div>"
+               out += "</div>"
+        }
+        $("#gamePlays").html(out);
 }
 function setData(data){        
         var img = "";
