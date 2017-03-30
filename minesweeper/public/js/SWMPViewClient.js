@@ -1,36 +1,45 @@
 //available variables from pug template .script :
 /* sessionID = session id of the current game
    apiUrl = rest service url */
-
+var timer = null;
 function load() {
-  //do some stuff
+        timer = setInterval(getData, 200);
 }
 window.onload = load;
 
-function leftClick(row,col){
+function getData(){
         $.ajax({
                 type: "POST",
-                        url: apiUrl + "startGame",
+                        url: apiUrl + "viewGameData",
 
-                        data: JSON.stringify({ sessionID: sessionID, col:col, row: row }),
+                        data: JSON.stringify({ sessionID: sessionID}),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data){
-                                //do stuff
-                           
+                                prepareMap( data["cols"],data["rows"]);
+                        setData(data)
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
                         }
                 });
 }
-function setData(data){
-        console.dir(data["mineField"])
-        setHtmlFromData(data,"name");
-        setHtmlFromData(data,"gameState");
+function setData(data){        
+        //setTime(data["timeElapsed"]);
+       if( data["gameState"] == "lost")
+        {
+                clearInterval(timer);
+               /* $("#minefield").effect( "shake" );
+                $( "#dialogBadJobKid" ).dialog( "open" );*/
+        }else if( data["gameState"] == "win")
+        {
+                clearInterval(timer);
+               /* $( "#dialogGoodJobKid" ).dialog( "open" );*/
+        }
+        setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
-        setMinefield(data["mineField"]);
+        $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");
 }
 function setMinefield(mf){
         if(mf)
@@ -40,18 +49,18 @@ function setMinefield(mf){
                                 //console.log("'" + mf[i][j] + "'");
                                 var checkMe = mf[i][j]
                                 switch (checkMe) {
-                                case "0":
+                                case 0:
                                         cssClass = "swmp_td_shown";
                                         break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                        cssClass = "swmp_td_" + mf[i][j];
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                case 6:
+                                case 7:
+                                case 8:
+                                        cssClass = "swmp_td_" + mf[i][j] ;
                                         break;
                                 case "f":
                                 console.log("FLag")
@@ -69,7 +78,7 @@ function setMinefield(mf){
                                 } 
                                 var id = "#cell" + i + "-" + j 
                                 //console.log("id " + id + " : " + cssClass)
-                                $(id).text(mf[i][j]);
+                                $(id).text(" "); //mf[i][j]
                                 $(id)
                                 // Remove all classes
                                 .removeClass()
@@ -81,25 +90,18 @@ function setMinefield(mf){
 function setHtmlFromData(data,name){
         $("#" + name).text(data[name]);
 }
-function rightClick(row,col){
-                /* Server api expects   :  
-        var sessionID = req.body.sessionID;
-        var row = parseInt(req.body.row);
-        var col = parseInt(req.body.col);*/
-        console.log("Client right click on " + row + " - " + col + " for game " + sessionID)
-        $.ajax({
-                type: "POST",
-                        url: apiUrl + "rightClick",
 
-                        data: JSON.stringify({ sessionID: sessionID,  row: row, col:col}),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function(data){
-                                setData(data)
-                        },
-                        failure: function(errMsg) {
-                                alert("Server issues " + errMsg);
-                        }
-                });
-        return false;
+function prepareMap(rows,cols){
+        $("#minefield").html("");
+        var out = "<table id='tableMinefield'>"
+        for(var i = 0 ; i < rows; i++){
+                out += "<tr>"
+                for(var j = 0 ; j < rows; j++){
+                        out += "<td id='cell" + i + "-" + j + "' class='swmp_td_hidden'";
+                        out += " oncontextmenu='return false;'";     
+                        out += "</td>";                
+                }
+                out += "</tr>"
+        }
+        $("#minefield").html(out + "</table>")
 }

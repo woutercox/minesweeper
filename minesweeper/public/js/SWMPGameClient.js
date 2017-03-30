@@ -3,7 +3,14 @@
    apiUrl = rest service url */
 
 function load() {
-  //do some stuff
+        var d = new Date().getTime();
+        var uuid = 'xxxxxx'.replace(/[x]/g, function(c) {
+                var r = (d + Math.random()*16)%16 | 0;
+                d = Math.floor(d/16);
+                return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+        });
+        var guest = "Guest " + uuid.toUpperCase();
+        $("#name").val(guest);
 }
 window.onload = load;
 
@@ -23,7 +30,42 @@ function setTime(itime){
         time = 1 * itime;
         $("#timeElapsed").text(time.toFixed(2));
 }
-//# 
+function pauzeGame(){
+        clearInterval(timer);
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "pauseGame",
+
+                data: JSON.stringify({ sessionID: sessionID}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        setData(data)             
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+  
+}
+function unPauzeGame(){
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "unPauseGame",
+
+                data: JSON.stringify({ sessionID: sessionID}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        setData(data)     
+                        timer = setInterval(fTimer, interval);        
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+  
+}
 function startGame(){
         if ($("#rows").val() == "" || $("#cols").val() == "" || $("#name").val() == "" || $("#bombs").val() == ""){
                 
@@ -47,7 +89,6 @@ function startGame(){
                                 sessionID = data["sessionID"]
                                 data.gameState = "busy"
                                 data.timeElapsed = 0;
-                                console.dir(data);
                                 setData(data)
                                 $("#ClientMinefieldMsg").html("");
                                 timer = setInterval(fTimer, interval);
@@ -83,24 +124,35 @@ function leftClick(row,col){
                 });
 }
 function setData(data){        
-        setTime(data["timeElapsed"]);
-        if (data["gameState"] != "busy")
-        {
-                prepareMap(rows,cols,false)
+        var img = "";
+        var state = data["gameState"];
+        if (data["gameState"] == "busy"){
+                prepareMap(rows,cols,true)
+                 img = " <img src='../img/pauzex28.png' onclick='pauzeGame();'>" 
         }
+        else
+                prepareMap(rows,cols,false)
         if( data["gameState"] == "lost")
         {
                 clearInterval(timer);
                 $("#minefield").effect( "shake" );
                 $( "#dialogBadJobKid" ).dialog( "open" );
+                img = " loss"
         }else if( data["gameState"] == "win")
         {
                 clearInterval(timer);
                 $( "#dialogGoodJobKid" ).dialog( "open" );
+                 img = " win"
+        }else if (data["gameState"] == "pause"){
+                state = "busy";
+                img = " <img src='../img/playx28.png' onclick='unPauzeGame();'>"
         }
+                
+        setTime(data["timeElapsed"]);
         setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
-        $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");
+
+        $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + state + ".svg' title='" + data["gameState"] + "'>" + img);
 }
 function setMinefield(mf){
         if(mf)

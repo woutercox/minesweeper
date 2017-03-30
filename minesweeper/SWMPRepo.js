@@ -6,7 +6,18 @@ const MINESWEEPERGAME_DEFAULT_BOMBS = 10;
 //minesweeper multiplayer demo
 var SWMPRepo = function(){
     this.runningGames = [];
+    this.clearOldGames = function(){
+        var idleTimer = 30 * 60 * 1000;
+        var wonLossTimer = 1 * 60 * 1000;
+         for (var key in this.runningGames) {
+            var go = this.runningGames[key];
+            //response.write(go.timeElapsed);
+            //response.write(go.gameState);
+            //terminateGame
+         }
+    }
     this.newGame = function(name, rows , cols , bombs){
+        this.clearOldGames();
         var msmpSes = new MineSweeperSession(name, rows, cols , bombs)
         var sessionID = this.genSessionID();
         while(sessionID in this.runningGames) sessionID = this.genSessionID();
@@ -14,16 +25,28 @@ var SWMPRepo = function(){
         console.log("new game with id " + sessionID)
         return {sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()};
     }
+    this.pause= function(sessionID){
+        var go = this.getGame(sessionID);
+        go.pause();
+        return this.getViewDataFromGameObject(sessionID,go);
+    } 
+    this.unPause= function(sessionID){
+        var go = this.getGame(sessionID);
+        go.unPause();
+        return this.getViewDataFromGameObject(sessionID,go);
+    } 
     this.leftClickAndGetViewData= function(sessionID, row, col){
         console.log("left click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
-        go.leftClick(row,col);
+        if (go.gameState == 0)
+            go.leftClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
     }
     this.rightClickAndGetViewData= function(sessionID, row, col){
         console.log("right click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
-        go.rightClick(row,col);
+        if (go.gameState == 0)
+            go.rightClick(row,col);
         return this.getViewDataFromGameObject(sessionID,go);
     }
     this.getViewDataFromGameObject= function(sessionID,go){
@@ -33,11 +56,19 @@ var SWMPRepo = function(){
          var go = this.getGame(sessionID);
          return this.getViewDataFromGameObject(sessionID,go);
     }
+    this.getViewDataWithColsAndRows = function(sessionID){
+         var go = this.getGame(sessionID);
+         var ro =  this.getViewDataFromGameObject(sessionID,go);
+         ro.cols = go.game.cols;
+         ro.rows = go.game.rows;
+         return ro;
+    }
     this.activeGamesCount = function(){
         return Object.keys(this.runningGames).length;
     }
     this.getLiveGames = function(top){
-        var returnCnt = 9;
+        console.log("getLiveGames " + top)
+        var returnCnt = top;
         var output = new Array();
         for (var key in this.runningGames) {
             var go = this.runningGames[key];
@@ -48,7 +79,7 @@ var SWMPRepo = function(){
                     flagsleft:go.bombFlagsLeft(),
                     timer:go.timeElapsed()
             })
-            if (! --returnCnt) return output
+            if (! --returnCnt) return { games : output}
         }
         return { games : output}
     }
@@ -93,30 +124,45 @@ class MineSweeperSession{
         this.bombFlagsLeft = function (){return this.game.bombFlagsLeft()};
         this.viewData  = function (){return this.game.getViewData()};
         this.gameState = this.game.gameState;
-        this.timeElapsed = function(){return (new Date() - this.start) / 1000;}
+        this.clickCount = 0;
+        this.time = 0;
+        this.timeElapsed = function(){
+            if(this.game.gameState == 0)
+                return (new Date() - this.start) / 1000;
+            else
+                return this.time;
+        }
+        this.pause = function(){
+            this.game.gameState = 3;
+            this.time = (new Date() - this.start) / 1000;
+        }
+        this.unPause = function(){
+            this.game.gameState = 0;
+            this.time = 0;
+        }
         this.gameStateString = function(){
             if (this.game.gameState == 0)
                 return "busy"
             else if (this.game.gameState == 1)
                 return "win"
-            else 
+            else if (this.game.gameState == 2)
                 return "lost"
+            else if (this.game.gameState == 3)
+                return "pause"
         }
-        this.time = 0;
         this.leftClick = function(row,col) {
              this.game.clickTile(row,col)
              this.clickCount++;
-             if (this.game.gameState == 2 || this.game.gameState == 2) //loose
-                this.time = new Date() - this.start
+             if (this.game.gameState == 2 || this.game.gameState == 1) //stop game
+                this.time = (new Date() - this.start) / 1000
         } 
         this.rightClick = function(row,col){
             this.game.rightClickTile(row,col)
             this.clickCount++;
-            if (this.game.gameState == 1 || this.game.gameState == 1) //win
-                this.time = new Date() - this.start
+            if (this.game.gameState == 1 || this.game.gameState == 2) //stop game
+                this.time = (new Date() - this.start) / 1000
             return this.viewData();
         }
-        this.clickCount = 0;
     }
 }
 
@@ -181,7 +227,7 @@ class MineSweeperGame{
                         this.spaces[i][j]++
                     //topright
                     if(i > 0 && j < (this.cols - 1)  && this.spaces[i-1][j+1] == "b") 
-                        this.spaces[i][j]++
+                        this.spaces[i][j]++;
                     //left
                     if(j > 0  && this.spaces[i][j-1] == "b") 
                         this.spaces[i][j]++
@@ -235,7 +281,7 @@ class MineSweeperGame{
         for (var i = 0; i < this.rows; i++) {  
             out[i] = new Array(this.cols)
             for (var j = 0; j < this.cols; j++) {
-                if (this.gameState != 0 && this.spaces[i][j] == "b" )
+                if ((this.gameState == 1 || this.gameState == 2) && this.spaces[i][j] == "b" )
                     this.show[i][j] = "s"
                 if (this.show[i][j] == "s" )
                     out[i][j] = this.spaces[i][j];

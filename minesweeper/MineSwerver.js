@@ -24,9 +24,8 @@ app.all('/*', function (req, res, next) {
 });
 // Peter z'n shit
 var mongoose = require('mongoose');
- 
 mongoose.connect('mongodb://Admin:admin@ds145370.mlab.com:45370/boozecluesdatab', function(){
-    console.log('connected succesfully')
+    console.log('connected with mongoDB')
 });
 
 var HighScore = require('./highScore')
@@ -41,6 +40,7 @@ app.post('/highScore', function(req, res){
     HighScore.findOne({name: 'test'}, function(error, res){
         console.log(res);
     })
+
     highScore.save();
     res.send('user saved');
 })
@@ -80,6 +80,20 @@ function addScore(highScore_data){
     highScore.save();
 };
 //*********************************************************** */
+
+app.get('/getTop3', function(req, res){
+    var cols;
+    var rows;
+   HighScore.find({cols: cols,rows:rows}, 
+    function(error, res){
+        console.log(res);
+    }
+    )
+
+    res.send('user saved');
+})
+
+
 
 //viewengine = pug = jade
 app.set('view engine', 'pug')
@@ -124,6 +138,20 @@ app.post('/startGame', function(req, res) {
     var rows = req.body.rows;
     var bombs = req.body.bombs;
     var ro = repo.newGame(name,cols,rows,bombs);
+    res.status(200).send(JSON.stringify(ro));
+});
+
+// Perform a pause in a game and retrieve the result
+app.post('/pauseGame', function(req, res) {
+    var sessionID = req.body.sessionID;
+    var ro = repo.pause(sessionID);
+    res.status(200).send(JSON.stringify(ro));
+});
+
+// Perform an unpause in a game and retrieve the result
+app.post('/unPauseGame', function(req, res) {
+    var sessionID = req.body.sessionID;
+    var ro = repo.unPause(sessionID);
     res.status(200).send(JSON.stringify(ro));
 });
 
@@ -185,29 +213,36 @@ app.get('/viewGame/:sessionID', function (req, res) {
     res.render('SWMPViewClient', viewData)
 });
 
+app.post('/viewGameData', function (req, res) {
+    var sessionID = req.body.sessionID;
+    var viewData = repo.getViewDataWithColsAndRows(sessionID);
+    viewData.sessionID = sessionID;
+    res.status(200).send(JSON.stringify(viewData));  
+});
+
 app.get('/play', function (req, res) {
     res.render('SWMPGameClient', {apiUrl: PROTOCOL + HOST  + ":" + PORT + "/"})
 });
 
 app.get('/liveGames/', function (req, res) {
-    var gameCount = 9 //req.params.count;
+    console.log("livegames served")
+    var gameCount = 9; //req.params.count || 
     var viewData = repo.getLiveGames(gameCount);
     viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
+    if(viewData && viewData["games"]){
+        console.log("games served : " + viewData["games"].length);
+    }else{
+        console.log("no games to serve")
+    }
     //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
     //en  samengevoegd met data
-    if(viewData){
-        console.dir(viewData["games"].length);
-    }
     res.render('SWMPMultiplayer', viewData) 
 });
 
 app.get('/liveGamesRefresh/', function (req, res) {
     var gameCount = 9 //req.params.count;
     var viewData = repo.getLiveGames(gameCount);
-    viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
-    //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
-    //en  samengevoegd met data
-     res.status(200).send(JSON.stringify(viewData));  
+    res.status(200).send(JSON.stringify(viewData));  
 });
 
 // Listen on port

@@ -27,26 +27,29 @@ html
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='name', type='text', value='New Attack', name='name', class='swmp_largeInput')
+              input(id='name', type='text', value='New Name', name='name', class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') name 
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='rows', type=number, name='rows', min=1, max =16, class='swmp_largeInput')
+              input(id='rows', type=number, value='10', name='rows', min=1, max =16, class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') Size 
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='cols', type=number, name='cols', min=1, max =16, class='swmp_largeInput')
+              input(id='cols', type=number, value='10', name='cols', min=1, max =16, class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') x 
           br(style='clear:both')
           div 
             div(class='SWMP_content')
-              input(id='bombs', type=number, name='bombs', min=1, max =14, class='swmp_largeInput')
+              input(id='bombs', type=number, value='10',name='bombs', min=1, max =14, class='swmp_largeInput')
             div(class='SWMP_label', id='bombs_label') Barrels
-            br(style='clear:both')
+          br(style='clear:both')
+          br
           div
-            input(type='button', value='attack !', onclick='startGame()', class='swmp_largeInputButton')
+            input(type='button', value='my scores', onclick='alert("hi")', class='swmp_3Buttons')
+            input(type='button', value='high score', onclick='alert("hi")', class='swmp_3Buttons')
+            input(type='button', value='attack !', onclick='startGame()', class='swmp_3Buttons')
     div(id='gameClientWrapperGame', style='display:none')
       div(id='clientMinefieldMsg')
       div(id='clientMinefield')
