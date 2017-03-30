@@ -89,6 +89,13 @@ app.post('/startGame', function(req, res) {
 });
 
 // Perform a leftCLick in a game and retrieve the result
+app.post('/pauseGame', function(req, res) {
+    var sessionID = req.body.sessionID;
+    var ro = repo.pause(sessionID);
+    res.status(200).send(JSON.stringify(ro));
+});
+
+// Perform a leftCLick in a game and retrieve the result
 app.post('/leftClick', function(req, res) {
     var sessionID = req.body.sessionID;
     var row = parseInt(req.body.row);

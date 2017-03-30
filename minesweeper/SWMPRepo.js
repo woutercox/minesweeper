@@ -25,6 +25,10 @@ var SWMPRepo = function(){
         console.log("new game with id " + sessionID)
         return {sessionID:sessionID,flagsLeft:msmpSes.bombFlagsLeft(),mineField:msmpSes.viewData()};
     }
+    this.pauze= function(sessionID){
+        var go = this.getGame(sessionID);
+        go.time = 
+    } 
     this.leftClickAndGetViewData= function(sessionID, row, col){
         console.log("left click " + sessionID + " on : " + row + " : " + col)
         var go = this.getGame(sessionID);
@@ -109,20 +113,22 @@ class MineSweeperSession{
                 return "busy"
             else if (this.game.gameState == 1)
                 return "win"
-            else 
+            else if (this.game.gameState == 2)
                 return "lost"
+            else if (this.game.gameState == 3)
+                return "pauze"
         }
         this.time = 0;
         this.leftClick = function(row,col) {
              this.game.clickTile(row,col)
              this.clickCount++;
-             if (this.game.gameState == 2 || this.game.gameState == 2) //loose
+             if (this.game.gameState == 2 || this.game.gameState == 1) //stop game
                 this.time = new Date() - this.start
         } 
         this.rightClick = function(row,col){
             this.game.rightClickTile(row,col)
             this.clickCount++;
-            if (this.game.gameState == 1 || this.game.gameState == 1) //win
+            if (this.game.gameState == 1 || this.game.gameState == 2) //stop game
                 this.time = new Date() - this.start
             return this.viewData();
         }
@@ -245,7 +251,7 @@ class MineSweeperGame{
         for (var i = 0; i < this.rows; i++) {  
             out[i] = new Array(this.cols)
             for (var j = 0; j < this.cols; j++) {
-                if (this.gameState != 0 && this.spaces[i][j] == "b" )
+                if ((this.gameState == 1 || this.gameState == 2) && this.spaces[i][j] == "b" )
                     this.show[i][j] = "s"
                 if (this.show[i][j] == "s" )
                     out[i][j] = this.spaces[i][j];

@@ -31,7 +31,7 @@ body{
     background-attachment: fixed;
 }
 #map{background: no-repeat center center url(../img/multiplayermap.jpg);
-background-size: 100% 100%;height:600px;border: 5px solid brown;
+background-size: 100% 100%;height:600px;border: 5px solid #8f7e63;
 border-radius: 5px;}
 #multiplayerWrapper{padding:5%}
 /*https://s-media-cache-ak0.pinimg.com/originals/08/aa/73/08aa73b53a8862635b811eb4c60656db.jpg*/
@@ -70,7 +70,7 @@ border-radius: 5px;}
     left:50%;
     }
 #gameClientForm{padding:5px;color:white}
-#gameClientTitle{padding:5px;background-color:#757575;color:white}
+#gameClientTitle{padding:5px;background-color:#8f7e63;color:white}
 .swmp_smallInput{width:200px;font-family: 'Purple Purse', cursive;font-size:1.5em}
 .swmp_largeInput{width:95%;font-family: 'Purple Purse', cursive;font-size:1.5em}
 .swmp_largeInputButton{width:100%;font-family: 'Purple Purse', cursive;height:75px;font-size:1.5em}
