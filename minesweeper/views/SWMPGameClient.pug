@@ -47,7 +47,7 @@ html
           br(style='clear:both')
           br
           div
-            input(type='button', value='my scores', onclick='alert("hi")', class='swmp_3Buttons')
+            input(type='button', value='my scores', onclick='showGamePlay()', class='swmp_3Buttons')
             input(type='button', value='high score', onclick='alert("hi")', class='swmp_3Buttons')
             input(type='button', value='attack !', onclick='startGame()', class='swmp_3Buttons')
     div(id='gameClientWrapperGame', style='display:none')
@@ -62,6 +62,8 @@ html
         div(class='SWMP_status_right', id="timeElapsed")= timeElapsed
       br(style='clear:both')
       div(id="minefield",name="minefield")   
+    div(id='gamePlays', style='display:none')
+      p loading gameplays
     div(id='dialogGameInfo',title='Booze Clues .. how to.')
       h3 How could a game with numbers and boxes be so amazingly difficult? 
       div Welcome detective,  the goal of your BoozeClues attack plan (like Minesweeper) is to find where all the booze barrels (bombs) are within a specific region, so we can raid them later and arrest those filthy criminals. 

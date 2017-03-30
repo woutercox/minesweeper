@@ -172,7 +172,8 @@ app.post('/viewGameData', function (req, res) {
 });
 
 app.get('/play', function (req, res) {
-    res.render('SWMPGameClient', {apiUrl: PROTOCOL + HOST  + ":" + PORT + "/"})
+    var testHost = "192.168.23.114"; //peter pc
+    res.render('SWMPGameClient', {apiUrl: PROTOCOL + testHost  + ":" + PORT + "/"})
 });
 
 app.get('/liveGames/', function (req, res) {

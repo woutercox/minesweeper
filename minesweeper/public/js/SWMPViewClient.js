@@ -25,21 +25,25 @@ function getData(){
                 });
 }
 function setData(data){        
+        var img;
         //setTime(data["timeElapsed"]);
-       if( data["gameState"] == "lost")
+        if( data["gameState"] == "lost")
         {
                 clearInterval(timer);
-               /* $("#minefield").effect( "shake" );
-                $( "#dialogBadJobKid" ).dialog( "open" );*/
+                img = "<img class='gameclient_status_ico' src='../img/state_" + data["gameState"]  + ".svg' title='" + data["gameState"] + "'> loss"
         }else if( data["gameState"] == "win")
         {
+                img = "<img class='gameclient_status_ico' src='../img/state_" + data["gameState"]  + ".svg' title='" + data["gameState"] + "'> win"
                 clearInterval(timer);
-               /* $( "#dialogGoodJobKid" ).dialog( "open" );*/
+        }else if (data["gameState"] == "pause"){
+                img = " pause"
+        }else {
+                img = " busy" 
         }
         setMinefield(data["mineField"]);
         setHtmlFromData(data,"flagsLeft");
         setHtmlFromData(data,"timeElapsed");
-        $("#gameState").html("<img class='gameclient_status_ico' src='../img/state_" + data["gameState"] + ".svg' title='" + data["gameState"] + "'>");
+        $("#gameState").html(img);
 }
 function setMinefield(mf){
         if(mf)
