@@ -92,6 +92,7 @@ body {
     
     @include breakpoint(small down) {
         transform: none;
+        font-size: rem-calc(24);
     }
     
     padding-top: rem-calc(33);
@@ -119,6 +120,7 @@ body {
     
     @include breakpoint(small down) {
         transform: none;
+         font-size: rem-calc(20);
     }
     
 }
@@ -371,11 +373,11 @@ body {
             border-bottom: 1px solid #615747;
             
             @include breakpoint(medium only) {
-              font-size: rem-calc(16);
+              font-size: rem-calc(20);
               vertical-align: text-top;
             }
             @include breakpoint(small down) { 
-                font-size: rem-calc(16);
+                font-size: rem-calc(18);
             }
             
             
