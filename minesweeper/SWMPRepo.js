@@ -57,6 +57,15 @@ var SWMPRepo = function(){
         if(sessionID && this.runningGames[sessionID]) return this.runningGames[sessionID];
         throw "Game does not exist or your session has expired"
     }
+    this.getScore = function(sessionID){
+        var go = this.getGame(sessionID);
+        /* score : Number,
+            rows : Number,
+            collums : Number,
+            name : String,
+            bombs : Number*/
+        return {name : go.name, score : go.time, collums : go.game.cols, rows : go.game.rows, bombs : go.game.bombs}
+    }
     this.terminateGame = function (sessionID){
         if(sessionID && this.runningGames[sessionID]) 
             delete this.runningGames[sessionID];

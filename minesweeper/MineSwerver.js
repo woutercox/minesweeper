@@ -14,6 +14,15 @@ var path = require("path");
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//*********************************************************** */
+app.use(express.static('public'))
+
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-reqed-With, Content-Type, Accept");
+    next();
+});
+// Peter z'n shit
 var mongoose = require('mongoose');
  
 mongoose.connect('mongodb://Admin:admin@ds145370.mlab.com:45370/boozecluesdatab', function(){
@@ -22,10 +31,13 @@ mongoose.connect('mongodb://Admin:admin@ds145370.mlab.com:45370/boozecluesdatab'
 
 var HighScore = require('./highScore')
 
-app.post('/highscore', function(req, res){
+app.post('/highScore', function(req, res){
     var highScore = new HighScore();
     highScore.name = req.body.name;
     highScore.score = req.body.score;
+    highScore.rows = req.body.rows;
+    highScore.collums = req.body.collums;
+    highScore.bombs = req.body.bombs;
     HighScore.findOne({name: 'test'}, function(error, res){
         console.log(res);
     })
@@ -33,21 +45,48 @@ app.post('/highscore', function(req, res){
     res.send('user saved');
 })
 
+app.post('/getHighScores', function(req, res){
+    var cols = req.body.cols;
+    var rows = req.body.rows;
+    var bombs = req.body.bombs;
+    HighScore.find({collums: cols, rows : rows, bombs: bombs}).sort({score: 'asc'}).limit(3).exec(function(err, model) {
+    if(err){
+            res.send(error);
+        }
+        res.send(model);
+    });
+        
+})
+
+app.post('/getGamePlays', function(req,res){
+    console.log('/getGamePlays' + " from : " + req.body.player)
+
+    HighScore.aggregate([
+        {$match : {name : req.body.player}},
+        {"$group": {"_id": {collums : "$collums", rows : "$rows", bombs : "$bombs"}}}
+        ]).exec(function(err, model){
+        if(err){
+            console.log('error on getGamePlays')
+        }
+        else{
+            console.log('tis gelukt')
+            res.send(model);
+        }
+    })
+})
+
+function addScore(highScore_data){
+    var highScore = new HighScore(highScore_data);
+    highScore.save();
+};
+//*********************************************************** */
+
 //viewengine = pug = jade
 app.set('view engine', 'pug')
 
 // MongoDB Connection URL
 //var url = 'mongodb://localhost:27017/test';
 //var mongoClient = require('mongodb').MongoClient;
-
-app.use(express.static('public'))
-
-app.all('/*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-reqed-With, Content-Type, Accept");
-    next();
-});
-
 app.get('/test', function (req, res) {
    console.log(SERVERNAME + " v " + VERSIONNAME + " is working");
    var ng= repo.newGame("Steven",10,10,10);
@@ -94,6 +133,9 @@ app.post('/leftClick', function(req, res) {
     var row = parseInt(req.body.row);
     var col = parseInt(req.body.col);
     var ro = repo.leftClickAndGetViewData(sessionID, row,col);
+    if(ro.gameState == 'win'){
+        addScore(repo.getScore(sessionID))
+    }
     res.status(200).send(JSON.stringify(ro));
 });
 
@@ -103,6 +145,9 @@ app.post('/rightClick', function(req, res) {
     var row = parseInt(req.body.row);
     var col = parseInt(req.body.col);
     var ro = repo.rightClickAndGetViewData(sessionID, row,col);
+    if(ro.gameState == 'win'){
+        addScore(repo.getScore(sessionID))
+    }
     res.status(200).send(JSON.stringify(ro));
 });
 
