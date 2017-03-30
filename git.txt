@@ -9,3 +9,5 @@ git add * (alles) git add . (gewijzigde files)
 git commit -m "message"
 
 git push origin master
+
+lol
