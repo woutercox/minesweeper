@@ -60,7 +60,6 @@ app.post('/getHighScores', function(req, res){
 
 app.post('/getGamePlays', function(req,res){
     console.log('/getGamePlays' + " from : " + req.body.player)
-
     HighScore.aggregate([
         {$match : {name : req.body.player}},
         {"$group": {"_id": {collums : "$collums", rows : "$rows", bombs : "$bombs"}}}
@@ -70,6 +69,29 @@ app.post('/getGamePlays', function(req,res){
         }
         else{
             console.log('tis gelukt')
+            for(let i = 0; i < model.length; i++){
+                var bombs =  model[i]["_id"]["bombs"];
+                var rows = model[i]["_id"]["rows"];
+                var collums = model[i]["_id"]["collums"];
+                var name = req.body.player
+                //fetch top score            
+                HighScore.find(
+                    {collums : collums, rows : rows, bombs : bombs, name : name }, 
+                    {score : 1})/*
+                    .sort({score: 'asc'}).limit(1)*/.exec(function(err, model2){
+                    if(err){
+                        console.log('error on score')
+                    }
+                    else{
+                        console.log('tis gelukt (score)')
+                      //  model[i]["_id"].score = model2["_doc"]["score"];
+                        console.dir(model2)
+                       // console.dir(model2[0]["_doc"]["score"]);
+                        console.dir(model2[0]);
+                
+                    }
+                })
+            }
             res.send(model);
         }
     })
