@@ -27,7 +27,7 @@ var SWMPRepo = function(){
     }
     this.pauze= function(sessionID){
         var go = this.getGame(sessionID);
-        go.time = 
+        go.time = 0
     } 
     this.leftClickAndGetViewData= function(sessionID, row, col){
         console.log("left click " + sessionID + " on : " + row + " : " + col)

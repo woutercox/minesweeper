@@ -3,6 +3,7 @@
    apiUrl = rest service url */
 var posities = [];
 var huidigePositie = {};
+var teller = 0
 
 function load() {
   test();
@@ -35,55 +36,35 @@ function fetchEnLaadData(){
 }
 
 //wordt aangeroepen door de server , naam niet aanpassen !
-function laadDataInHtml(data){       
+function laadDataInHtml(data){
+        $('#map').append("<table id='smurf'><tr><td class='spawnPlaatsMarker1'></td><td class='spawnPlaatsMarker2'></td><td class='spawnPlaatsMarker3'></td></tr><tr><td class='spawnPlaatsMarker4'></td><td class='spawnPlaatsMarker5'></td><td class='spawnPlaatsMarker6'></td></tr><tr><td class='spawnPlaatsMarker7'></td><td class='spawnPlaatsMarker8'></td><td class='spawnPlaatsMarker9'></td></tr></table>")  
         $.each(data, function( key, value ) {
-                $('#spawnPlaatsMarker').append("<div class='marker'></div>");    
+                teller++
+                $('.spawnPlaatsMarker'+teller)
+                $('.spawnPlaatsMarker'+teller).append("<div id='marker"+teller+"' class='marker'></div>");   
                 /*$('.marker:last-child').append('<p>'+ value.name +'</p>')
                 $('.marker:last-child').append('<p>' + value.flagsleft + '</p>')
                 $('.marker:last-child').append('<p>' + value.state + '</p>')
-
                 $('.marker:last-child').append('<p>' + value.timer + '</p>')*/
                 $a = $('<a onclick=\'viewSession("' + apiUrl + "viewgame/" + value.sessionID + '", "' + value.name +'")\'></a>')
                         .attr('title', 'game : ' + value.name + "\nbooze barrels : " + value.flagsleft + "\nstate : " + value.state + "\ntime : " + value.timer);
                 $('.marker:last-child').append($a);
                 $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
-                /*$a.hover(function(){
-                        this.effect("bounce")
-                })*/
-
-                do{ 
-                        randomizePositie();
-                }
-                while(checkOverlap());
-                posities.push(huidigePositie);
+                randomizePositieInGrid(teller)
         });
         $('document').tooltip();
 }
 
-function randomizePositie(){
-        var mapWidth = $('#spawnPlaatsMarker').width();
-        var mapHeight = $('#spawnPlaatsMarker').height();
+function randomizePositieInGrid(teller){
+        var mapWidth = $('.spawnPlaatsMarker'+teller).width();
+        var mapHeight = $('.spawnPlaatsMarker'+teller).height();
         var randPosX = Math.floor((Math.random()*mapWidth));
         var randPosY = Math.floor((Math.random()*mapHeight));
-        var randPositieY = (randPosY - 50)
-
-        $('.marker:last-child').css('left', randPosX);
-        $('.marker:last-child').css('top', randPositieY);
-
+        $('#marker'+teller).css('left', randPosX)
+        $('#marker'+teller).css('top', randPosY)
         huidigePositie = {
-        y : randPositieY,
+        y : randPosY,
         x : randPosX
-        }
-}
-
-function checkOverlap(){
-        for(var i = 0; i < posities.length; i++){
-               /* if(huidigePositie.x > posities[i].x && huidigePositie.x < posities[i].x+40 && huidigePositie.y > posities[i].y && huidigePositie.y < posities[i].y+40 ){*/
-                   if(((huidigePositie.x > posities[i].x && huidigePositie.x < posities[i].x+50) ||(posities[i].x > huidigePositie.x  && posities[i].x  < huidigePositie.x+50))&& 
-                        ((huidigePositie.y > posities[i].y && huidigePositie.y < posities[i].y+50) ||(posities[i].y > huidigePositie.y  && posities[i].y  < huidigePositie.y+50))){
-                        return true;
-                }
-                return false;
         }
 }
 
