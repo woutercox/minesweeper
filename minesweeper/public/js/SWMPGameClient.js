@@ -87,8 +87,8 @@ function unPauzeGame(){
 }
 function startGame(){
         $("#gamePlays").hide();
-        if ($("#rows").val() == "" || $("#cols").val() == "" || $("#name").val() == "" || $("#bombs").val() == ""){
-                
+        if (formIsInvalid()){
+           
         }
         else{
                 $("#statusWindow").show();
@@ -445,37 +445,74 @@ $( function() {
                         duration: 1000
                 }
         });
-} );
-
-// Detect the maximum number of rows and columns, based on screen size
-function setMaximumGridSize() {
-    var maxCols = Math.floor( ($(window).width() - 42) / 40);
-    var maxRows = maxCols;
-    $("#rows").prop("min", 1).prop("max", maxRows);
-    $("#cols").prop("min", 1).prop("max", maxCols);
-    // $("#message").text("Maximum rows = " + maxRows + " and maximum columns = " + maxCols);
-}
-
-
-$(document).ready(function() {
+    
     $("#rows").prop("type", "number").prop("required", true);
     $("#cols").prop("type", "number").prop("required", true);
     $("#bombs").prop("type", "number").prop("required", true);
-    
+
     setMaximumGridSize();
 
     // When window gets resized, calculate maximum row and column width
     $( window ).resize(function() {
         setMaximumGridSize();
     });
-    
+
     $("#rows, #cols").change(function() {
-        var nrOfRows = $("#rows").val() // Number of rows
-        var nrOfCols = $("#cols").val() // // Number of columns
-        var maxBombs = nrOfRows * nrOfCols - 1;
-        console.log(nrOfRows, nrOfCols, maxBombs);
-        $("#bombs").prop("min", 1).prop("max", nrOfRows*nrOfCols-1);
- 
+    var nrOfRows = $("#rows").val() // Number of rows
+    var nrOfCols = $("#cols").val() // // Number of columns
+    var maxBombs = nrOfRows * nrOfCols - 1;
+    console.log(nrOfRows, nrOfCols, maxBombs);
+    $("#bombs").prop("min", 1).prop("max", nrOfRows*nrOfCols-1);
+
     });
     
-});
+} );
+
+// Check if the form is valid
+function formIsInvalid() {
+    
+    var rowsValue = $("#rows").val();
+    var colsValue = $("#cols").val();
+    var bombsValue = $("#bombs").val();
+    
+    var maxRows = $("#rows").prop("max");
+    var maxCols = $("#cols").prop("max");
+    var maxBombs = maxRows*maxCols-1;
+    
+    console.log("Max: ", maxRows, maxCols, maxBombs)
+    console.log("Values: ", rowsValue, colsValue, bombsValue)
+     
+    if ( $("#name").val() === "" || rowsValue === "" || colsValue === "" || bombsValue === "") {    
+        console.log("All fields are required")
+        return true;
+    } 
+    
+    if(colsValue > maxCols) {
+        console.log("Number of columns higher than maximum cols possible");
+        return true;
+    }
+    
+    if(rowsValue > maxRows) {
+        console.log("Number of rows higher than maximum rows possible");
+        return true;
+    }
+    
+    if(bombsValue > maxBombs) {
+        if(colsValue > maxCols) {
+            console.log("Number of bombs higher than maximum bombs possible");
+            return true;
+        }        
+    }
+    
+    return false;
+}
+
+// Detect the maximum number of rows and columns, based on screen size
+function setMaximumGridSize() {
+    var maxCols = Math.floor( ($(window).width() - 42) / 40);
+    var maxRows = Math.floor( ($(window).height() - 42) / 40);
+    $("#rows").prop("min", 1).prop("max", maxRows);
+    $("#cols").prop("min", 1).prop("max", maxCols);
+    // $("#message").text("Maximum rows = " + maxRows + " and maximum columns = " + maxCols);
+}
+
