@@ -12,10 +12,21 @@ function load() {
         var guest = "Guest " + uuid.toUpperCase();
         //$("#name").val(guest);
         $("#name").val("sjoeke");
+
+        //check if localstorage exists
+        if(localStorage.getItem("sessionID")){
+                sessionID = localStorage.getItem("sessionID");
+                localStorage.removeItem("sessionID")
+                $("#gamePlays").hide();
+                $("#statusWindow").show();
+                $("#gameClientWrapperSetup").hide();
+                $("#gameClientWrapperGame").show();
+                unPauzeGame();
+        }
 }
 window.onload = load;
 
-var SessionID = "";
+var sessionID = "";
 var currentFlagsLeft = "";
 var rows=8;
 var cols =8;
@@ -32,6 +43,8 @@ function setTime(itime){
         $("#timeElapsed").text(time.toFixed(2));
 }
 function pauzeGame(){
+        //save game in localcache
+        localStorage.setItem("sessionID", sessionID)
         clearInterval(timer);
         $.ajax({
         type: "POST",
@@ -58,6 +71,11 @@ function unPauzeGame(){
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data){
+                        rows = data["mineField"].length
+                        cols = data["mineField"][0].length
+                        console.log("unpauze " + rows + " " + cols)
+                        prepareMap(rows,cols,true);
+                        setMinefield(data["mineField"]);
                         setData(data)     
                         timer = setInterval(fTimer, interval);        
                 },
