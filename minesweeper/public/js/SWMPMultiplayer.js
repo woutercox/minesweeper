@@ -57,7 +57,7 @@ function laadDataInHtml(data){
                         $('#marker'+teller).css('background', 'green')
                 }
                 else{
-                        $('#marker'+teller).css('background', 'yellow')                    
+                        $('#marker'+teller).css('background', 'orange')                    
                 }
         });
         $('document').tooltip();
