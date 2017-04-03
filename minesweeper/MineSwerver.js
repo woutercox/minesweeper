@@ -109,9 +109,7 @@ app.get('/getTop3', function(req, res){
    HighScore.find({cols: cols,rows:rows}, 
     function(error, res){
         console.log(res);
-    }
-    )
-
+    })
     res.send('user saved');
 })
 
