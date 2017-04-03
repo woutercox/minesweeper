@@ -1,17 +1,31 @@
 $(document).foundation();
 
 // Object constructor for membership card data
-function CardData(name, cv, portfolio) {
+function CardData(name, cv, portfolio, id) {
     this.name = name;
     this.cv = cv;
     this.portfolio = portfolio || null;
+    this.id = id;
 }
+
+function createMemberID() {
+    var min = 1001; var max = 9999;
+    var randNr = 0;
+    do {
+        randNr = Math.floor(Math.random()*(max-min+1)+min);
+    } while(existingIDs.indexOf(randNr) !== -1)
+    existingIDs.push(randNr);
+ 
+    return randNr;
+}
+// Data for the membershop 'ID' numbers
+var existingIDs = [];
 
 // Data for the 'membership cards'
 var cards = [
-    new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/"),
-    new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/"),
-    new CardData("Peter Melis", "http://www.google.be/"),
+    new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/", createMemberID()),
+    new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/", createMemberID()),
+    new CardData("Peter Melis", "http://www.google.be/", "http://www.google.be/", createMemberID())
 ]
 
 var counter = 0; // Track the position of the current membership card
@@ -38,7 +52,7 @@ function shuffleArray(array) {
 }
 
 function changeCard(index) {
-    console.dir(cards[index]);
+    // console.dir(cards[index]);
     $(".member-name a").text(cards[index].name);
     $("#card-name").text(cards[index].name);
     $(".cv > a ").attr("href", cards[index].cv);
@@ -52,8 +66,13 @@ function changeCard(index) {
         }
 }
 
+function changeMember(index) {
+$(".membership").text("Member #" + cards[index].id + ": " + cards[index].name);
+}
+
 $(document).ready(function() {
     shuffleArray(cards);
+    changeMember(0);
     $(".member-name a").text(cards[0].name);
     $("#card-name").text(cards[0].name);
     $(".cv > a ").attr("href", cards[0].cv);
@@ -65,6 +84,8 @@ $(document).ready(function() {
     } else {
         $(".portfolio >a").text("");
     }  
+    
+    
 })
 
 $("#top-arrow a").click(function() {
@@ -76,6 +97,7 @@ $("#top-arrow a").click(function() {
     $("#card-img").animateCss("flipInX");
     
     changeCard(counter);
+    changeMember(counter);
 })
 
 $("#bottom-arrow a").click(function() {
@@ -87,4 +109,5 @@ $("#bottom-arrow a").click(function() {
     
     $("#card-img").animateCss("flipInX");
     changeCard(counter);
+    changeMember(counter);
 })
