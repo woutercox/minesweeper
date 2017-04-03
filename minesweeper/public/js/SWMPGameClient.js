@@ -127,7 +127,28 @@ function leftClick(row,col){
                 });
 }
 
-function showCurrentScores(){}
+function showCurrentScores(){
+        $("#gamePlays").html("");
+        $("#gamePlays").show();
+        getAllPlayerScoresForCurrentGame();
+}
+
+function getAllPlayerScoresForCurrentGame(){
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "getAllScoresForType",
+                data: JSON.stringify({ rows:$("#rows").val(),cols:$("#cols").val(),bombs:$("bombs").val()}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        console.dir(data)        
+                        $("#gamePlays").html(loadRanksInHtml(data))
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+}
 
 function getAllPlayerScoresForType(rows,cols,bombs){
         var id = "ranks_" + rows + "_" + cols + "_" + bombs
@@ -148,27 +169,6 @@ function getAllPlayerScoresForType(rows,cols,bombs){
                 }
         });
 }
-
-function getAllPlayerScoresForCurrentGame(){
-        var id = "#
-        $("#" + id).show();
-        $.ajax({
-        type: "POST",
-                url: apiUrl + "getAllScoresForType",
-
-                data: JSON.stringify({ rows:rows,cols:cols,bombs:bombs}),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(data){
-                        console.dir(data)        
-                        $("#" + id).html(loadRanksInHtml(data))
-                },
-                failure: function(errMsg) {
-                        alert("Server issues " + errMsg);
-                }
-        });
-}
-
 function loadRanksInHtml(data){
         var out = "<div id='playerRanks'>"
         for (var i = 0; i< data.length; i++){
