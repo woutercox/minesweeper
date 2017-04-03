@@ -25,7 +25,8 @@ var existingIDs = [];
 var cards = [
     new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/", createMemberID()),
     new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/", createMemberID()),
-    new CardData("Peter Melis", "http://www.google.be/", "http://www.google.be/", createMemberID())
+    new CardData("Peter Melis", "http://www.google.be/", "http://www.google.be/", createMemberID()),
+    new CardData("Steven Leysen", "http://www.google.be/", "http://www.google.be/", createMemberID())
 ]
 
 var counter = 0; // Track the position of the current membership card
