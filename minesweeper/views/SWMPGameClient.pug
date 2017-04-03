@@ -27,26 +27,29 @@ html
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='name', type='text', value='New Attack', name='name', class='swmp_largeInput')
+              input(id='name', type='text', value='New Name', name='name', class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') name 
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='rows', type=number, name='rows', min=1, max =16, class='swmp_largeInput')
+              input(id='rows', type=number, value='10', name='rows', min=1, max =16, class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') Size 
           br(style='clear:both')
           div
             div(class='SWMP_content')
-              input(id='cols', type=number, name='cols', min=1, max =16, class='swmp_largeInput')
+              input(id='cols', type=number, value='10', name='cols', min=1, max =16, class='swmp_largeInput')
             div(class='SWMP_label', id='player_label') x 
           br(style='clear:both')
           div 
             div(class='SWMP_content')
-              input(id='bombs', type=number, name='bombs', min=1, max =14, class='swmp_largeInput')
+              input(id='bombs', type=number, value='10',name='bombs', min=1, max =14, class='swmp_largeInput')
             div(class='SWMP_label', id='bombs_label') Barrels
-            br(style='clear:both')
+          br(style='clear:both')
+          br
           div
-            input(type='button', value='attack !', onclick='startGame()', class='swmp_largeInputButton')
+            input(type='button', value='my scores', onclick='showGamePlay()', class='swmp_3Buttons')
+            input(type='button', value='high score', onclick='showCurrentScores()', class='swmp_3Buttons')
+            input(type='button', value='attack !', onclick='startGame()', class='swmp_3Buttons')
     div(id='gameClientWrapperGame', style='display:none')
       div(id='clientMinefieldMsg')
       div(id='clientMinefield')
@@ -59,6 +62,8 @@ html
         div(class='SWMP_status_right', id="timeElapsed")= timeElapsed
       br(style='clear:both')
       div(id="minefield",name="minefield")   
+    div(id='gamePlays', style='display:none')
+      p loading gameplays
     div(id='dialogGameInfo',title='Booze Clues .. how to.')
       h3 How could a game with numbers and boxes be so amazingly difficult? 
       div Welcome detective,  the goal of your BoozeClues attack plan (like Minesweeper) is to find where all the booze barrels (bombs) are within a specific region, so we can raid them later and arrest those filthy criminals. 

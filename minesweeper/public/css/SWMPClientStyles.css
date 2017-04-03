@@ -129,3 +129,16 @@ box-shadow: 10px 10px 17px 5px rgba(0,0,0,0.75);
     padding:30px 0px 190px;
   }
 }
+.gameTypePlayed{margin-top:5px;padding:5px;background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;
+    border-radius:5px;height:40px;}
+.gameTypePlayedLeft{float:left;width:30%}
+.gameTypePlayedMiddle{float:left;width:30%;text-align:center}
+.gameTypePlayedRight{float:right;width:30%;text-align:right}
+
+#gamePlays{margin:auto;width:470px;
+ }
+ #playerRanks{width:470px;background-color:grey}
+
+ #playerRanks div{float: left;width: 32%;}
+ .highlightedName{color:deeppink}
