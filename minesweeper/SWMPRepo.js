@@ -73,14 +73,16 @@ var SWMPRepo = function(){
         var output = new Array();
         for (var key in this.runningGames) {
             var go = this.runningGames[key];
-            output.push(
-                {   sessionID:key,
-                    name:go.name,
-                    state:go.gameStateString(), 
-                    flagsleft:go.bombFlagsLeft(),
-                    timer:go.timeElapsed()
-            })
-            if (! --returnCnt) return { games : output}
+            if(go.gameStateString() == 'busy'){
+                output.push(
+                    {   sessionID:key,
+                        name:go.name,
+                        state:go.gameStateString(), 
+                        flagsleft:go.bombFlagsLeft(),
+                        timer:go.timeElapsed()
+                })
+                if (! --returnCnt) return { games : output}   
+            }
         }
         return { games : output}
     }

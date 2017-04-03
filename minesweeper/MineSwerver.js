@@ -264,8 +264,8 @@ app.post('/viewGameData', function (req, res) {
     res.status(200).send(JSON.stringify(viewData));  
 });
 
-app.get('/liveGames/', function (req, res) {
-    console.log("livegames served")
+app.get('/liveGames', function (req, res) {
+    console.log("liveGames served")
     var gameCount = 9; //req.params.count || 
     var viewData = repo.getLiveGames(gameCount);
     viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
@@ -277,6 +277,20 @@ app.get('/liveGames/', function (req, res) {
     //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
     //en  samengevoegd met data
     res.render('SWMPMultiplayer', viewData) 
+});
+
+app.get('/liveGamesData/:count', function (req, res) {
+    var gameCount = 9; //req.params.count || 
+    var viewData = repo.getLiveGames(gameCount);
+    viewData.apiUrl = PROTOCOL + HOST  + ":" + PORT + "/"
+    if(viewData && viewData["games"]){
+        console.log("games served : " + viewData["games"].length);
+    }else{
+        console.log("no games to serve")
+    }
+    //template wordt hier gebruikt : SWMPMultiplayer.pug  uit /view
+    //en  samengevoegd met data
+     res.status(200).send(JSON.stringify(viewData));  
 });
 
 app.get('/liveGamesRefresh/', function (req, res) {

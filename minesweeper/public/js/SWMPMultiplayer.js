@@ -2,30 +2,26 @@
 /* sessionID = session id of the current game
    apiUrl = rest service url */
 var posities = [];
-var huidigePositie = {};
-var teller = 0
+var timer;
 
-function load() {
-  test();
-}
-window.onload = load;
-
-function test(row,col){
-        /* Server api expects   :  */
-      //alert("js werkt , jeej");
-}
+$( document ).ready(
+        timer = setInterval(fetchEnLaadData, 3000)
+)
 
 function fetchEnLaadData(){
         var gameCount = 15;
         //laad alles via ajax
         $.ajax({
-                type: "POST",
-                        url: apiUrl + "livegames/" + gameCount,
+                type: "GET",
+                        url: apiUrl + "liveGamesData/" + gameCount,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(data){
+                                console.log('iets opgehaald')
+                                console.dir(data)
                                 //do stuff
-                           laadDataInHtml(data);
+                                $('#map').html('')
+                           laadDataInHtml(data['games']);
                         },
                         failure: function(errMsg) {
                                 alert("Server issues " + errMsg);
@@ -37,43 +33,39 @@ function fetchEnLaadData(){
 //wordt aangeroepen door de server , naam niet aanpassen !
 function laadDataInHtml(data){
         $('#map').append("<table id='smurf'><tr><td class='spawnPlaatsMarker1'></td><td class='spawnPlaatsMarker2'></td><td class='spawnPlaatsMarker3'></td></tr><tr><td class='spawnPlaatsMarker4'></td><td class='spawnPlaatsMarker5'></td><td class='spawnPlaatsMarker6'></td></tr><tr><td class='spawnPlaatsMarker7'></td><td class='spawnPlaatsMarker8'></td><td class='spawnPlaatsMarker9'></td></tr></table>")  
-        $.each(data, function( key, value ) {
-                teller++
-                $('.spawnPlaatsMarker'+teller)
-                $('.spawnPlaatsMarker'+teller).append("<div id='marker"+teller+"' class='marker'></div>");   
-                /*$('.marker:last-child').append('<p>'+ value.name +'</p>')
-                $('.marker:last-child').append('<p>' + value.flagsleft + '</p>')
-                $('.marker:last-child').append('<p>' + value.state + '</p>')
-                $('.marker:last-child').append('<p>' + value.timer + '</p>')*/
+        //$.each(data, function( key, value ) {
+        for(var i = 1 ; i <= data.length ; i++){
+                var value = data[i-1]
+                console.dir(data)
+                $('.spawnPlaatsMarker'+i).append("<div id='marker"+i+"' class='marker'></div>");   
                 $a = $('<a onclick=\'viewSession("' + apiUrl + "viewgame/" + value.sessionID + '", "' + value.name +'")\'></a>')
                         .attr('title', 'game : ' + value.name + "\nbooze barrels : " + value.flagsleft + "\nstate : " + value.state + "\ntime : " + value.timer);
                 $('.marker:last-child').append($a);
                 $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
-                randomizePositieInGrid(teller)
-                console.log(value.state)
+                randomizePositieInGrid(i)
                 if(value.state == "lost"){
-                        $('#marker'+teller).css('background', 'red')
+                        $('#marker'+i).css('background', 'red')
                 }else if(value.state == "win"){
-                        $('#marker'+teller).css('background', 'green')
+                        $('#marker'+i).css('background', 'green')
                 }
                 else{
-                        $('#marker'+teller).css('background', 'orange')                    
+                        $('#marker'+i).css('background', 'orange')                    
                 }
-        });
+        }
         $('document').tooltip();
 }
 
-function randomizePositieInGrid(teller){
-        var mapWidth = $('.spawnPlaatsMarker'+teller).width();
-        var mapHeight = $('.spawnPlaatsMarker'+teller).height();
+function randomizePositieInGrid(i){
+        var mapWidth = $('.spawnPlaatsMarker'+i).width();
+        var mapHeight = $('.spawnPlaatsMarker'+i).height();
         var randPosX = Math.floor((Math.random()*mapWidth));
         var randPosY = Math.floor((Math.random()*mapHeight));
-        $('#marker'+teller).css('left', randPosX)
-        $('#marker'+teller).css('top', randPosY)
-        huidigePositie = {
+        $('#marker'+i).css('left', randPosX)
+        $('#marker'+i).css('top', randPosY)
+        /*huidigePositie = {
         y : randPosY,
         x : randPosX
-        }
+        }*/
 }
 
 function viewSession(url, name){
