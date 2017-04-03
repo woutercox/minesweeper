@@ -1,18 +1,36 @@
 $(document).foundation();
 
 // Object constructor for membership card data
-function CardData(name, cv, portfolio) {
+function CardData(name, cv, portfolio, id) {
     this.name = name;
     this.cv = cv;
     this.portfolio = portfolio || null;
+    this.id = id;
 }
+
+function createMemberID() {
+    var min = 1001; var max = 9999;
+    var randNr = 0;
+    do {
+        randNr = Math.floor(Math.random*max);
+        
+    } while(existingIDs.indexOf(randNr) !== -1)
+    existingIDs.push(randNr);    
+    console.log(randNr);
+    return randNr;
+}
+// Data for the membershop 'ID' numbers
+var existingIDs = [];
 
 // Data for the 'membership cards'
 var cards = [
-    new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/"),
-    new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/"),
-    new CardData("Peter Melis", "http://www.google.be/"),
+    new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/", createMemberID()),
+    new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/", createMemberID()),
+    new CardData("Peter Melis", "http://www.google.be/", createMemberID())
 ]
+
+
+
 
 var counter = 0; // Track the position of the current membership card
 
@@ -38,7 +56,7 @@ function shuffleArray(array) {
 }
 
 function changeCard(index) {
-    console.dir(cards[index]);
+    // console.dir(cards[index]);
     $(".member-name a").text(cards[index].name);
     $("#card-name").text(cards[index].name);
     $(".cv > a ").attr("href", cards[index].cv);
@@ -52,8 +70,16 @@ function changeCard(index) {
         }
 }
 
+function changeMember() {
+    var strPart1 = "#";
+    var strtPart2 = 0;
+    // Member #1574: Wouter Cox. 
+    $(".membership").text("Test");
+}
+
 $(document).ready(function() {
     shuffleArray(cards);
+    // changeMember();
     $(".member-name a").text(cards[0].name);
     $("#card-name").text(cards[0].name);
     $(".cv > a ").attr("href", cards[0].cv);
@@ -65,6 +91,8 @@ $(document).ready(function() {
     } else {
         $(".portfolio >a").text("");
     }  
+    
+    
 })
 
 $("#top-arrow a").click(function() {
