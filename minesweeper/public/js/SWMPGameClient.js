@@ -421,6 +421,7 @@ function setMaximumGridSize() {
     var maxRows = maxCols;
     $("#rows").prop("type", "number");
     $("#cols").prop("type", "number");
+    $("#bombs").prop("type", "number");
     $("#rows").prop("min", 1).prop("max", maxRows);
     $("#cols").prop("min", 1).prop("max", maxCols);
     $("#bombs").prop("min", 1).prop("max", maxRows*maxCols-1);
