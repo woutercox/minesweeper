@@ -58,6 +58,7 @@ function unPauzeGame(){
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data){
+.
                         setData(data)     
                         timer = setInterval(fTimer, interval);        
                 },
@@ -68,14 +69,16 @@ function unPauzeGame(){
   
 }
 function startGame(){
+        $("#gamePlays").hide();
         if ($("#rows").val() == "" || $("#cols").val() == "" || $("#name").val() == "" || $("#bombs").val() == ""){
                 
         }
         else{
+                $("#statusWindow").show();
                 $("#gameClientTitle").html($("#name").val());
-                $("#gameClientWrapperSetup").toggle();
+                $("#gameClientWrapperSetup").hide();
                 $("#ClientMinefieldMsg").html("Fetching battlemap");
-                $("#gameClientWrapperGame").toggle();
+                $("#gameClientWrapperGame").show();
                 rows =  $("#rows").val();
                 cols = $("#cols").val();
                 prepareMap(rows,cols,true);
@@ -146,12 +149,15 @@ function showGamePlay(){
 function loadGamePlaysInHtml(data){
         var out = "";
         for (var i=0; i < data.length; i++){
+                var rows = data[i]["_id"]["rows"];
+               var cols = data[i]["_id"]["collums"];
+               var bombs = data[i]["_id"]["bombs"];
                out += "<div class='gameTypePlayed'>"
                out += "<div class='gameTypePlayedLeft'>1 st ,  10s</div>"
-               out += "<div class='gameTypePlayedRight'><input type='button' value ='play'></div>"
-               out += "<div class='gameTypePlayedMiddle'>" + data[i]["_id"]["rows"]  ;
-               out += " * " +  data[i]["_id"]["collums"];
-               out += " b :" + data[i]["_id"]["bombs"];
+               out += "<div class='gameTypePlayedRight'><input name='nenbutton' onclick='fillInValues(" + rows + "," + cols + "," + bombs + ");startGame()' type='button' value ='play'></div>"
+               out += "<div class='gameTypePlayedMiddle'>" +  rows ;
+               out += " * " +  cols;
+               out += " b :" + bombs;
                out += "</div>"
                out += "</div>"
         }
