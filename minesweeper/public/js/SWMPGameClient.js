@@ -127,6 +127,63 @@ function leftClick(row,col){
                 });
 }
 
+function showCurrentScores(){}
+
+function getAllPlayerScoresForType(rows,cols,bombs){
+        var id = "ranks_" + rows + "_" + cols + "_" + bombs
+        $("#" + id).show();
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "getAllScoresForType",
+
+                data: JSON.stringify({ rows:rows,cols:cols,bombs:bombs}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        console.dir(data)        
+                        $("#" + id).html(loadRanksInHtml(data))
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+}
+
+function getAllPlayerScoresForCurrentGame(){
+        var id = "#
+        $("#" + id).show();
+        $.ajax({
+        type: "POST",
+                url: apiUrl + "getAllScoresForType",
+
+                data: JSON.stringify({ rows:rows,cols:cols,bombs:bombs}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                        console.dir(data)        
+                        $("#" + id).html(loadRanksInHtml(data))
+                },
+                failure: function(errMsg) {
+                        alert("Server issues " + errMsg);
+                }
+        });
+}
+
+function loadRanksInHtml(data){
+        var out = "<div id='playerRanks'>"
+        for (var i = 0; i< data.length; i++){
+                var xtraClass= ""
+                if($("#name").val() == data[i]["name"])
+                        xtraClass = " highlightedName"
+                out+= "<div class='SWMP_status_left" + xtraClass + "'>" + (i + 1) + "</div>"
+                out+= "<div class='SWMP_status_middle" + xtraClass + "'>" + data[i]["score"] + "</div>"
+                out += "<div class='SWMP_status_right" + xtraClass    
+                out += "'>" + data[i]["name"] + "</div>"
+        }
+        out += "<br style='clear:both' /></div>"
+        return out;
+}
+
 function showGamePlay(){
         $("#gamePlays").show();
         $.ajax({
@@ -148,17 +205,21 @@ function showGamePlay(){
 function loadGamePlaysInHtml(data){
         var out = "";
         for (var i=0; i < data.length; i++){
-                var rows = data[i]["_id"]["rows"];
-               var cols = data[i]["_id"]["collums"];
-               var bombs = data[i]["_id"]["bombs"];
+                var rows = data[i]["rows"];
+               var cols = data[i]["collums"];
+               var bombs = data[i]["bombs"];
+               var topScore = parseInt(data[i]["topScore"]) ? parseInt(data[i]["topScore"]) / 1000 : 10
                out += "<div class='gameTypePlayed'>"
-               out += "<div class='gameTypePlayedLeft'>1 st ,  10s</div>"
-               out += "<div class='gameTypePlayedRight'><input name='nenbutton' onclick='fillInValues(" + rows + "," + cols + "," + bombs + ");startGame()' type='button' value ='play'></div>"
+               out += "<div class='gameTypePlayedLeft'>" + topScore +" s</div>"
+               out += "<div class='gameTypePlayedRight'><input name='nenbutton' onclick='fillInValues(" + rows + "," + cols + "," + bombs + ");startGame()' type='button' value ='play'>"
+               out += "<input name='nenbutton' onclick='getAllPlayerScoresForType(" + rows + "," + cols + "," + bombs + ");return false' type='button' value ='show Rank'>"
+               out += "</div>"
                out += "<div class='gameTypePlayedMiddle'>" +  rows ;
                out += " * " +  cols;
                out += " b :" + bombs;
                out += "</div>"
                out += "</div>"
+               out += "<div id='ranks_" + rows + "_" + cols + "_" + bombs + "' style='display:none'></div>"
         }
         $("#gamePlays").html(out);
 }
