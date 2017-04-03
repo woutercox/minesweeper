@@ -12,11 +12,10 @@ function createMemberID() {
     var min = 1001; var max = 9999;
     var randNr = 0;
     do {
-        randNr = Math.floor(Math.random*max);
-        
+        randNr = Math.floor(Math.random()*(max-min+1)+min);
     } while(existingIDs.indexOf(randNr) !== -1)
-    existingIDs.push(randNr);    
-    console.log(randNr);
+    existingIDs.push(randNr);
+ 
     return randNr;
 }
 // Data for the membershop 'ID' numbers
@@ -26,11 +25,8 @@ var existingIDs = [];
 var cards = [
     new CardData("Maximiliaan Verheyen", "http://maxverheyen.be/resume/", "http://maxverheyen.be/", createMemberID()),
     new CardData("Wouter Cox", "http://www.coxwouter.be/", "http://coxwouter.be/Designs/Portfolio/", createMemberID()),
-    new CardData("Peter Melis", "http://www.google.be/", createMemberID())
+    new CardData("Peter Melis", "http://www.google.be/", "http://www.google.be/", createMemberID())
 ]
-
-
-
 
 var counter = 0; // Track the position of the current membership card
 
@@ -70,16 +66,13 @@ function changeCard(index) {
         }
 }
 
-function changeMember() {
-    var strPart1 = "#";
-    var strtPart2 = 0;
-    // Member #1574: Wouter Cox. 
-    $(".membership").text("Test");
+function changeMember(index) {
+$(".membership").text("Member #" + cards[index].id + ": " + cards[index].name);
 }
 
 $(document).ready(function() {
     shuffleArray(cards);
-    // changeMember();
+    changeMember(0);
     $(".member-name a").text(cards[0].name);
     $("#card-name").text(cards[0].name);
     $(".cv > a ").attr("href", cards[0].cv);
@@ -104,6 +97,7 @@ $("#top-arrow a").click(function() {
     $("#card-img").animateCss("flipInX");
     
     changeCard(counter);
+    changeMember(counter);
 })
 
 $("#bottom-arrow a").click(function() {
@@ -115,4 +109,5 @@ $("#bottom-arrow a").click(function() {
     
     $("#card-img").animateCss("flipInX");
     changeCard(counter);
+    changeMember(counter);
 })
