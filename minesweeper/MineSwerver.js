@@ -68,33 +68,57 @@ app.post('/getGamePlays', function(req,res){
             console.log('error on getGamePlays')
         }
         else{
+            let resArray = [];
+            let thatModel = model;
             console.log('tis gelukt')
-            for(let i = 0; i < model.length; i++){
-                var bombs =  model[i]["_id"]["bombs"];
-                var rows = model[i]["_id"]["rows"];
-                var collums = model[i]["_id"]["collums"];
+            let stillBusy = thatModel.length - 1
+            for(let i = 0; i < thatModel.length; i++){
+                var bombs =  thatModel[i]["_id"]["bombs"];
+                var rows = thatModel[i]["_id"]["rows"];
+                var collums = thatModel[i]["_id"]["collums"];
                 var name = req.body.player
                 //fetch top score            
                 HighScore.find(
-                    {collums : collums, rows : rows, bombs : bombs, name : name }, 
-                    {score : 1})/*
-                    .sort({score: 'asc'}).limit(1)*/.exec(function(err, model2){
+                    {collums : collums, rows : rows, bombs : bombs, name : name },
+                    ['score'])
+                    .exec(function(err, model){
                     if(err){
                         console.log('error on score')
                     }
                     else{
-                        console.log('tis gelukt (score)')
-                      //  model[i]["_id"].score = model2["_doc"]["score"];
-                        console.dir(model2)
-                       // console.dir(model2[0]["_doc"]["score"]);
-                        console.dir(model2[0]);
-                
+                        let score = JSON.parse(JSON.stringify(model[0]).replace("model ", "")).score;
+                        let thisModel = thatModel[i]["_id"]
+                        resArray.push({
+                            collums: thisModel["collums"],
+                            rows : thisModel["rows"],
+                            bombs : thisModel["bombs"],
+                            topScore : score
+                        });
+                        if(!stillBusy--){
+                        res.send(JSON.stringify(resArray));}
                     }
                 })
             }
-            res.send(model);
         }
     })
+})
+
+app.post('/getAllScoresForType', function(req, res){
+    var collums = req.body.cols;
+    var rows = req.body.rows;
+    var bombs = req.body.bombs;
+    HighScore.find(
+                    {collums : collums, rows : rows, bombs : bombs}, 
+                    ['name', 'score'],
+                    {sort:{score: 1}})
+    .exec(function(err, model){
+        if(err){
+            console.log('error on getGamePlays')
+        }
+        else{
+            res.send(model);
+        }
+    });
 })
 
 function addScore(highScore_data){
