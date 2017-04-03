@@ -451,19 +451,31 @@ $( function() {
 function setMaximumGridSize() {
     var maxCols = Math.floor( ($(window).width() - 42) / 40);
     var maxRows = maxCols;
-    $("#rows").prop("type", "number");
-    $("#cols").prop("type", "number");
-    $("#bombs").prop("type", "number");
     $("#rows").prop("min", 1).prop("max", maxRows);
     $("#cols").prop("min", 1).prop("max", maxCols);
-    $("#bombs").prop("min", 1).prop("max", maxRows*maxCols-1);
     // $("#message").text("Maximum rows = " + maxRows + " and maximum columns = " + maxCols);
 }
 
+
 $(document).ready(function() {
+    $("#rows").prop("type", "number").prop("required", true);
+    $("#cols").prop("type", "number").prop("required", true);
+    $("#bombs").prop("type", "number").prop("required", true);
+    
     setMaximumGridSize();
 
+    // When window gets resized, calculate maximum row and column width
     $( window ).resize(function() {
-    setMaximumGridSize();
+        setMaximumGridSize();
     });
+    
+    $("#rows, #cols").change(function() {
+        var nrOfRows = $("#rows").val() // Number of rows
+        var nrOfCols = $("#cols").val() // // Number of columns
+        var maxBombs = nrOfRows * nrOfCols - 1;
+        console.log(nrOfRows, nrOfCols, maxBombs);
+        $("#bombs").prop("min", 1).prop("max", nrOfRows*nrOfCols-1);
+ 
+    });
+    
 });
