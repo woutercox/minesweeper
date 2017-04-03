@@ -141,4 +141,9 @@ box-shadow: 10px 10px 17px 5px rgba(0,0,0,0.75);
  #playerRanks{width:470px;background-color:grey}
 
  #playerRanks div{float: left;width: 32%;}
- .highlightedName{color:deeppink}
+ .highlightedName{color:#f56f6f}
+ #loader{text-align:center;background-color:rgba(129, 120, 104, .8);
+    border:1px solid #757575;width:470px;}
+.rankImg{width:16px}
+.scoreButton{font-family: 'Purple Purse', cursive;
+font-weight: bold;padding:5px;}

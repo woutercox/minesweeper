@@ -148,19 +148,19 @@ function leftClick(row,col){
 function showCurrentScores(){
         $("#gamePlays").html("");
         $("#gamePlays").show();
-        getAllPlayerScoresForCurrentGame();
+        getAllPlayerScoresForCurrentGame("#gamePlays");
 }
 
-function getAllPlayerScoresForCurrentGame(){
+function getAllPlayerScoresForCurrentGame(id){
         $.ajax({
         type: "POST",
                 url: apiUrl + "getAllScoresForType",
-                data: JSON.stringify({ rows:$("#rows").val(),cols:$("#cols").val(),bombs:$("bombs").val()}),
+                data: JSON.stringify({ rows:$("#rows").val(),cols:$("#cols").val(),bombs:$("#bombs").val()}),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data){
                         console.dir(data)        
-                        $("#gamePlays").html(loadRanksInHtml(data))
+                        $(id).html(loadRanksInHtml(data))
                 },
                 failure: function(errMsg) {
                         alert("Server issues " + errMsg);
@@ -189,11 +189,24 @@ function getAllPlayerScoresForType(rows,cols,bombs){
 }
 function loadRanksInHtml(data){
         var out = "<div id='playerRanks'>"
+        if (data.length == 0)
+                out += "<div style='padding:10px;width:98%'>No scores yet. Be the first to enter a highscore !</div>"
         for (var i = 0; i< data.length; i++){
                 var xtraClass= ""
+                var rankImg = ""
+                if (i==0){
+                        rankImg="<img src='../img/medal_first.svg' class='rankImg' /> "        
+                }else if (i==1){
+                        rankImg="<img src='../img/medal_second.svg' class='rankImg' /> "  
+                }
+                else if(i==2){
+                        rankImg="<img src='../img/medal_third.svg' class='rankImg' /> "  
+                }else if (i==3){
+                       out += "<div style='width:98%;height:1px;border-bottom:1px dotted white;margin:5px;' ></div>"
+                }
                 if($("#name").val() == data[i]["name"])
                         xtraClass = " highlightedName"
-                out+= "<div class='SWMP_status_left" + xtraClass + "'>" + (i + 1) + "</div>"
+                out+= "<div class='SWMP_status_left" + xtraClass + "'>" + rankImg + (i + 1) + "</div>"
                 out+= "<div class='SWMP_status_middle" + xtraClass + "'>" + data[i]["score"] + "</div>"
                 out += "<div class='SWMP_status_right" + xtraClass    
                 out += "'>" + data[i]["name"] + "</div>"
@@ -229,8 +242,9 @@ function loadGamePlaysInHtml(data){
                var topScore = parseInt(data[i]["topScore"]) ? parseInt(data[i]["topScore"]) / 1000 : 10
                out += "<div class='gameTypePlayed'>"
                out += "<div class='gameTypePlayedLeft'>" + topScore +" s</div>"
-               out += "<div class='gameTypePlayedRight'><input name='nenbutton' onclick='fillInValues(" + rows + "," + cols + "," + bombs + ");startGame()' type='button' value ='play'>"
-               out += "<input name='nenbutton' onclick='getAllPlayerScoresForType(" + rows + "," + cols + "," + bombs + ");return false' type='button' value ='show Rank'>"
+               out += "<div class='gameTypePlayedRight'>"
+               out += "<input class='scoreButton' onclick='getAllPlayerScoresForType(" + rows + "," + cols + "," + bombs + ");return false' type='button' value ='rank'>"
+               out += "<input class='scoreButton' onclick='fillInValues(" + rows + "," + cols + "," + bombs + ");startGame()' type='button' value ='>'>"
                out += "</div>"
                out += "<div class='gameTypePlayedMiddle'>" +  rows ;
                out += " * " +  cols;
@@ -371,6 +385,24 @@ function prepareMap(rows,cols,canClick){
 }
 
 $( function() {
+        dialogGameScores
+        $( "#dialogGameScores" ).dialog({
+                width: 600,
+                modal:true,
+                autoOpen: false,
+                        show: {
+                        effect: "blind",
+                        duration: 1000
+                },
+                hide: {
+                        effect: "explode",
+                        duration: 1000
+                }
+        });
+        $( "#showTopScoresButton" ).on( "click", function() {      
+                getAllPlayerScoresForCurrentGame("#dialogGameScoresContent")
+                $( "#dialogGameScores" ).dialog( "open" );
+        });
         $( "#dialogGameInfo" ).dialog({
                 width: 600,
                 modal:true,

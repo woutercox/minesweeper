@@ -53,7 +53,7 @@ html
     div(id='gameClientWrapperGame', style='display:none')
       div(id='clientMinefieldMsg')
       div(id='clientMinefield')
-        input(type='button', value='Scores', onclick='showTopScore()', class='swmp_3Buttons')
+        input(id='showTopScoresButton',type='button', value='Scores', class='swmp_3Buttons')
         input(id='showGameInfoButton', type='button', value='Info', class='swmp_3Buttons')
         input(type='button', value='New', onclick='restartGame()', class='swmp_3Buttons')
       div(id='statusWindow')  
@@ -63,7 +63,8 @@ html
       br(style='clear:both')
       div(id="minefield",name="minefield")   
     div(id='gamePlays', style='display:none')
-      p loading gameplays
+      div(id="loader")
+        img(src="../img/loader.gif")
     div(id='dialogGameInfo',title='Booze Clues .. how to.')
       h3 How could a game with numbers and boxes be so amazingly difficult? 
       div Welcome detective,  the goal of your BoozeClues attack plan (like Minesweeper) is to find where all the booze barrels (bombs) are within a specific region, so we can raid them later and arrest those filthy criminals. 
@@ -77,5 +78,7 @@ html
       img(src='../img/goodjobKid.png',class='goodJobImg')
     div(id='dialogBadJobKid',title='You fail ... Get him boys!')
       img(src='https://upload.wikimedia.org/wikipedia/commons/7/7d/Jack_Holt_in_Holt_of_the_Secret_Service.jpg',class='badJobImg')
+    div(id='dialogGameScores',title='TopScores for current game config')
+      div(id='dialogGameScoresContent')
       
           
