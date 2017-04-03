@@ -53,11 +53,11 @@ function laadDataInHtml(data){
                 console.log(value.state)
                 if(value.state == "lost"){
                         $('#marker'+teller).css('background', 'red')
-                }else if(value.state == "won"){
+                }else if(value.state == "win"){
                         $('#marker'+teller).css('background', 'green')
                 }
                 else{
-                        $('#marker'+teller).css('background', 'orange')                    
+                        $('#marker'+teller).css('background', 'yellow')                    
                 }
         });
         $('document').tooltip();
