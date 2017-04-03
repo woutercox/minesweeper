@@ -15,7 +15,6 @@ function test(row,col){
       //alert("js werkt , jeej");
 }
 
-
 function fetchEnLaadData(){
         var gameCount = 15;
         //laad alles via ajax
@@ -51,6 +50,15 @@ function laadDataInHtml(data){
                 $('.marker:last-child').append($a);
                 $a.append('<img src="../img/crate.svg" style="width:40px;height:40px">')
                 randomizePositieInGrid(teller)
+                console.log(value.state)
+                if(value.state == "lost"){
+                        $('#marker'+teller).css('background', 'red')
+                }else if(value.state == "won"){
+                        $('#marker'+teller).css('background', 'green')
+                }
+                else{
+                        $('#marker'+teller).css('background', 'orange')                    
+                }
         });
         $('document').tooltip();
 }

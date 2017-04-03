@@ -50,7 +50,7 @@ border-radius: 5px;}
 }
 #clientMinefield, #statusWindow{width:300px;margin:auto; background-color:rgba(129, 120, 104, .8);
     border:1px solid #757575;}
-  #statusWindow{display:table;}
+#statusWindow{display:table;}
 #statusWindow div{float:left;width:32%};
 #minefield {display:table; margin:auto}
 #gameClientWrapperSetup{margin:auto;width:470px;
@@ -142,3 +142,6 @@ box-shadow: 10px 10px 17px 5px rgba(0,0,0,0.75);
 
  #playerRanks div{float: left;width: 32%;}
  .highlightedName{color:deeppink}
+ lol{
+   color:deepskyblue;
+ }
