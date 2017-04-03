@@ -240,11 +240,6 @@ app.post('/viewGameData', function (req, res) {
     res.status(200).send(JSON.stringify(viewData));  
 });
 
-app.get('/play', function (req, res) {
-    var testHost = "192.168.23.114"; //peter pc
-    res.render('SWMPGameClient', {apiUrl: PROTOCOL + testHost  + ":" + PORT + "/"})
-});
-
 app.get('/liveGames/', function (req, res) {
     console.log("livegames served")
     var gameCount = 9; //req.params.count || 
@@ -264,6 +259,18 @@ app.get('/liveGamesRefresh/', function (req, res) {
     var gameCount = 9 //req.params.count;
     var viewData = repo.getLiveGames(gameCount);
     res.status(200).send(JSON.stringify(viewData));  
+});
+
+app.get('/play', function (req, res) {
+    res.render('SWMPGameClient', {apiUrl: PROTOCOL + HOST  + ":" + PORT + "/"})
+});
+
+app.get('/playTest', function (req, res) {
+    //***************************************************** */
+    //peter pc
+    //********************************************************** */
+    var testHost = "192.168.23.111"; 
+    res.render('SWMPGameClient', {apiUrl: PROTOCOL + testHost  + ":" + PORT + "/"})
 });
 
 // Listen on port
